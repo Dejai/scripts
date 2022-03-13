@@ -1,2 +1,4 @@
-# scripts
-A generic set of scripts
+# Scripts
+A generic set of scripts used across projects
+
+
