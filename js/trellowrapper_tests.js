@@ -13,7 +13,7 @@ var Variables = {
 			"saveKey": "id",
 			"saveTo": "deleteBoardID"
 		},
-		"get_open_lists": {
+		"get_lists": {
 			"matchKey": "name",
 			"matchVal": "API_TESTING",
 			"saveKey": "id",
@@ -47,8 +47,10 @@ var Variables = {
 	awaiting: [],
 	arguments: {
 		comment: "This is a test comment from the Trello test suite",
-		listName: "DELETE_ME_API_TESTING_DELETE_ME",
-		listState: "closed",
+		listName: "DELETE_ME_API_TESTING",
+		newListName: "API_TESTING",
+		listState: "open",
+		newListState: "closed",
 		checklistItemName: "New Checklist Item Testing",
 		newChecklistItemName: "Checklist Item Name - Updated",
 		cardName: "Test Card Name",
@@ -65,21 +67,10 @@ mydoc.ready(()=>{
 	let body = document.querySelector("#trello_tests");
 	if (body != undefined)
 	{
+		MyTrello.SetBoardName("jeopardy"); // Default testing with the Jeopardy board
 		loadTests(body);
-
 	}
 });
-
-function onSetBoardName(event)
-{
-	let textField = document.querySelector("#boardNameTextField");
-	if(textField != undefined)
-	{
-		let value = textField.value.toLowerCase().replaceAll(" ","");
-		MyTrello.SetBoardName(value);
-		mydoc.showContent("#trello_tests_table");
-	}
-}
 
 function loadTests(body)
 {
@@ -134,7 +125,8 @@ function onRunTest(key)
 	if(TestRuns.includes(key)){ return; }
 
 	// The call back functions (if needed)
-	let testCallBack = (data) =>{ parseResults(key,data); }
+	Variables.arguments.successCallback = (data) => {parseResults(key, data); }
+	Variables.arguments.failureCallback = (data) => {parseResults(key, data); }
 
 	// set the test to running
 	setTestState(key, "running");
@@ -147,7 +139,7 @@ function onRunTest(key)
 	for(var idx = 0; idx < expectedArguments.length; idx++)
 	{
 		let key = expectedArguments[idx];
-		let val = (key == "successCallback" || key == "failureCallback") ? testCallBack : Variables.arguments[key];
+		let val = Variables.arguments[key];
 		if(val != undefined)
 		{
 			arguments.push(val);
@@ -231,7 +223,8 @@ function onRunTest(key)
 		catch(err)
 		{
 			setTestState(key, "completed");
-			setTestResults(key, "FAIL: " + data.responseText);
+			let message = data.responseText ?? err.message;
+			setTestResults(key, "FAIL: " + message);
 		}
 		
 	}
@@ -281,9 +274,8 @@ function onRunTest(key)
 				mydoc.hideContent(`#reset_button_${key}`);
 				break;
 			case "waiting":
-				mydoc.showContent(`#waiting_message_${key}`);
 				mydoc.hideContent(`#loading_gif_${key}`);
-				mydoc.hideContent(`#test_button_${key}`);
+				mydoc.showContent(`#test_button_${key}`);
 				mydoc.hideContent(`#reset_button_${key}`);
 				break;
 			case "completed":
@@ -377,9 +369,13 @@ function onResetTest(key)
 			LogMessage("Cleaning up checklist");
 			resetChecklists(key);
 			break;
-		case "update_card_name":
-			LogMessage("Resetting Card Name");
-			resetCardName(key);
+		case "update_list_state":
+			LogMessage("Resetting List Archive State");
+			resetListState(key);
+			break;
+		case "create_list":
+			LogMessage("Cleaning up the test list");
+			resetLists(key);
 			break;
 		default:
 			setTestState(key, "reset");
@@ -427,7 +423,7 @@ function resetChecklists(key)
 			// Get rid of the checklists
 			checklists.forEach( (checklistID)=>{
 				let path = MyTrello.GetFullTrelloPath('delete_checklist',`&checklistID=${checklistID}`);
-				myajax.POST(path,"",(data)=>{
+				myajax.POST(path,"",{},(data)=>{
 					LogMessage(data);
 					setTestState(key, "reset");
 					setTestResults(key, "");
@@ -458,7 +454,7 @@ function resetComments(key)
 			commentResp.forEach( (comment)=>{
 				let actionID = comment.id;
 				let path = MyTrello.GetFullTrelloPath('delete_action',`&actionID=${actionID}`);
-				myajax.POST(path,"",(data)=>{
+				myajax.POST(path,"",{},(data)=>{
 					setTestState(key, "reset");
 					setTestResults(key, "");
 				},(data)=>{
@@ -492,7 +488,7 @@ function resetCreatedCards(key)
 					let cardID = card.id;
 					let path = MyTrello.GetFullTrelloPath('delete_card',`&cardID=${cardID}`);
 					LogMessage(path);
-					myajax.POST(path,"",(data)=>{
+					myajax.POST(path,"",{},(data)=>{
 						LogMessage(data);
 						setTestState(key, "reset");
 						setTestResults(key, "");
@@ -515,7 +511,7 @@ function resetCreatedCards(key)
 
 function resetLists(key)
 {
-	MyTrello.get_open_lists( (data)=>{
+	MyTrello.get_lists( "open", (data)=>{
 
 		// Get API call for updating board list
 		let resp = JSON.parse(data.responseText);
@@ -524,13 +520,13 @@ function resetLists(key)
 		{
 			LogMessage("Moving Lists to Delete Board");
 			resp.forEach( (list)=>{
-				if(list.name == Variables.arguments.listName)
+				if(list.name.startsWith(Variables.arguments.listName))
 				{
-					listID = list.id;
+					let listID = list.id;
 					let path = MyTrello.GetFullTrelloPath("update_list_to_board",`&listID=${listID}&value=${boardID}`);
 					LogMessage(path);
 				
-					myajax.POST(path,"",(data)=>{
+					myajax.POST(path,"",{},(data)=>{
 						LogMessage(data);
 					});
 				}
@@ -546,6 +542,23 @@ function resetLists(key)
 	});
 }
 
+function resetListState(key)
+{
+	MyTrello.update_list_state(Variables.arguments.listID, "open",Variables.toSave.get_lists.matchVal, (data)=>{
+
+		// Get API call for updating board list
+		if(data.status == 200)
+		{
+			setTestState(key, "reset");
+			setTestResults(key, "");
+		}
+		else
+		{
+			setTestState(key, "completed");
+			setTestResults(key, "Board NOT RESET TO ACTIVE");
+		}
+	});
+}
 
 
 
