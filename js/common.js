@@ -300,25 +300,37 @@ const myajax = {
 			}
 		};
 
-		if(object.hasOwnProperty("cacheControl"))
+		// Set the headers (if any are passed)
+		if(object.hasOwnProperty("headers") && object["headers"] != undefined)
 		{
-			xhttp.setRequestHeader('Cache-Control', object["cacheControl"]);
+			let keys = Object.keys(object["headers"]);
+			keys.forEach( (key)=>{
+				
+				let val = object["headers"][key];
+
+				// set the request header:
+				xhttp.setRequestHeader(key, val);
+			});
 		}
+		// if(object.hasOwnProperty("cacheControl"))
+		// {
+		// 	xhttp.setRequestHeader('Cache-Control', object["cacheControl"]);
+		// }
 
 		// Send/proces the request
 		if ( object.hasOwnProperty("data") )
 		{
 			let data = object["data"];
 
-			// Check if content type is set
-			if(object.hasOwnProperty("contentType"))
-			{
-				let content_type = this.GetContentType( object["contentType"] );
-				if(content_type != "")
-				{
-					xhttp.setRequestHeader('Content-type', content_type);
-				}
-			}
+			// // Check if content type is set
+			// if(object.hasOwnProperty("contentType"))
+			// {
+			// 	let content_type = this.GetContentType( object["contentType"] );
+			// 	if(content_type != "")
+			// 	{
+			// 		xhttp.setRequestHeader('Content-type', content_type);
+			// 	}
+			// }
 			xhttp.send(data);
 		}
 		else
@@ -341,12 +353,13 @@ const myajax = {
 		
 	},
 
-	POST: function(url, dataObj, successCallback=undefined, failureCallback=undefined){
+	POST: function(url, dataObj, headerObject, successCallback=undefined, failureCallback=undefined){
 		
 		let requestObject = {
 			method: "POST",
 			path : url,
 			data: dataObj,
+			headers: headerObject,
 			success: successCallback,
 			failure : failureCallback ?? Logger.errorMessage
 		};
