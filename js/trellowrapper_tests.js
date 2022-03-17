@@ -51,6 +51,7 @@ var Variables = {
 		newListName: "API_TESTING",
 		listState: "open",
 		newListState: "closed",
+		customFieldName: "Pass Phrase",
 		checklistItemName: "New Checklist Item Testing",
 		newChecklistItemName: "Checklist Item Name - Updated",
 		cardName: "Test Card Name",
@@ -544,7 +545,7 @@ function resetLists(key)
 
 function resetListState(key)
 {
-	MyTrello.update_list_state(Variables.arguments.listID, "open",Variables.toSave.get_lists.matchVal, (data)=>{
+	MyTrello.update_list_state(Variables.arguments.listID, "open", Variables.toSave.get_lists.matchVal, (data)=>{
 
 		// Get API call for updating board list
 		if(data.status == 200)

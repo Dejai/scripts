@@ -64,22 +64,48 @@ const MyTrello = {
 	},
 
 	// Get the custom fields on a card
-	get_card_custom_fields: (cardID, customFieldID, successCallback, failureCallback) => {
-
+	get_card_custom_fields: (cardID, successCallback, failureCallback) => {
 		let trello_path = MyTrello.GetFullTrelloPath("get_card_custom_fields", `cardID=${cardID}`);
-		myajax.GET(trello_path,(data)=>{
+		myajax.GET(trello_path,successCallback,failureCallback);
+	},
 
-			let resp = JSON.parse(data.responseText);
-			console.log(resp);
-			let result = "";
-			result = resp.filter( (val)=>{
-				return val.idCustomField == customFieldID;
+	// Get a custom field on a card by its name
+	get_card_custom_field_by_name: (cardID, customFieldName, successCallback, failureCallback) => {
+
+		MyTrello.get_custom_fields( (data) =>{
+
+			let customFieldsResp = JSON.parse(data.responseText);
+			let customFieldID = undefined;
+			customFieldsResp.forEach( (field) =>{
+
+				if(field.name == customFieldName)
+				{
+					customFieldID = field.id;
+				}
 			});
 
-			let newRequestResp = { status: data.status, responseText: JSON.stringify(result) }
-			//Finally, run original success callback on this
-			successCallback(newRequestResp);
+			if(customFieldID != undefined)
+			{
+				// Get the custom fields and filter by ID
+				MyTrello.get_card_custom_fields(cardID,(data2)=>{
+					
+					let cardFieldsResp = JSON.parse(data2.responseText);
+					let result = "";
+					result = cardFieldsResp.filter( (val)=>{
+						return val.idCustomField == customFieldID;
+					});
 
+					let newRequestResp = { status: data2.status, responseText: JSON.stringify(result) }
+					// Pass data back to original successCallback
+					successCallback(newRequestResp);
+				}, failureCallback);
+			}
+			else
+			{
+				let newRequestResp = { status:400, responseText:`[]` }
+				successCallback(newRequestResp);
+			}
+			
 		}, failureCallback);
 	},
 
