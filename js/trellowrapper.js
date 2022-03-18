@@ -47,7 +47,7 @@ const MyTrello = {
 			let singleField = fieldsResp.filter( (val)=>{
 				return (val.name == customFieldName);
 			});
-			let newRequestResp = { status: data.status, responseText: JSON.stringify(singleField) }
+			let newRequestResp = { status: customFieldData.status, responseText: JSON.stringify(singleField) }
 
 			// Pass data back to original functions
 			if(data.status == 200)
