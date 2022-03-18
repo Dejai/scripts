@@ -50,7 +50,7 @@ const MyTrello = {
 			let newRequestResp = { status: customFieldData.status, responseText: JSON.stringify(singleField) }
 
 			// Pass data back to original functions
-			if(data.status == 200)
+			if(customFieldData.status == 200)
 			{
 				successCallback(newRequestResp);
 			}
