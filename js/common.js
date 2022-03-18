@@ -499,8 +499,8 @@ const Helper = {
 		let day = (dayIdx < 10) ? "0"+dayIdx : dayIdx;
 		
 		// Get the hour; Replaces "H" in the format;
-		let hour = dd.getHours();
-		hour = hour > 12 ? hour - 12 : hour;
+		let hour24 = dd.getHours();
+		let hour = hour24 > 12 ? hour24 - 12 : hour24;
 		hour = (hour < 10) ? "0"+hour : hour;
 
 		// Get the minute; Replaces "m" in the format;
@@ -512,7 +512,7 @@ const Helper = {
 		seconds = (seconds < 10) ? "0"+seconds : seconds;
 		
 		// Get the state of the day (AM vs PM); Replaces "K" in the format
-		let state = (hour >= 12) ? "PM" : "AM";
+		let state = (hour24 >= 12) ? "PM" : "AM";
 
 		// What to return;
 		var result = undefined; 

@@ -238,8 +238,6 @@ const MyTrello = {
 		var obj = { "value":{ "text":newCustomFieldvalue } };
 		var encoded = JSON.stringify(obj);
 		let trello_path = MyTrello.GetFullTrelloPath("update_card_custom_field", `cardID=${cardID}&customFieldID=${customFieldID}`);
-		console.log(trello_path);
-		console.log(encoded);
 		myajax.POST(trello_path,encoded,{},successCallback, failureCallback);
 	},
 
