@@ -39,6 +39,30 @@ const MyTrello = {
 		myajax.GET(trello_path,successCallback, failureCallback);
 	},
 
+	get_custom_field_by_name: (customFieldName, successCallback, failureCallback)=>{
+
+		MyTrello.get_custom_fields( (customFieldData)=>{
+			
+			let fieldsResp = JSON.parse(customFieldData.responseText);
+			let singleField = fieldsResp.filter( (val)=>{
+				return (val.name == customFieldName);
+			});
+			let newRequestResp = { status: data.status, responseText: JSON.stringify(singleField) }
+
+			// Pass data back to original functions
+			if(data.status == 200)
+			{
+				successCallback(newRequestResp);
+			}
+			else
+			{
+				failureCallback(newRequestResp)
+			}
+		}, failureCallback)
+
+
+	},
+
 	// Get a list of Trello Cards
 	get_cards: (listID, successCallback, failureCallback) => {
 		let trello_path = MyTrello.GetFullTrelloPath("get_cards", `listID=${listID}`);
@@ -117,11 +141,32 @@ const MyTrello = {
 
 	// Get a set of Trello Lists
 	get_lists: (listState, successCallback, failureCallback) => {
-		let filter = (listState.startsWith("close")) ? "closed" : "open";
-		let trello_path = MyTrello.GetFullTrelloPath("get_lists", `boardID=board_id&filter=${filter}`);
+		let state = (listState.startsWith("close")) ? "closed" :  (listState.startsWith("open")) ? "open" : undefined;
+		let filter = (state != undefined) ? `filter=${state}` : "";
+		let trello_path = MyTrello.GetFullTrelloPath("get_lists", `boardID=board_id&${filter}`);
 		myajax.GET(trello_path,successCallback, failureCallback);
 	},
 
+	get_list_by_name: (listName, successCallback, failureCallback) => {
+
+		MyTrello.get_lists("any", (data)=>{
+			let listsResp = JSON.parse(data.responseText);
+			let singleList = listsResp.filter( (val)=>{
+				return (val.name == listName);
+			});
+			let newRequestResp = { status: data.status, responseText: JSON.stringify(singleList) }
+			
+			// Pass data back to original functions
+			if(data.status == 200)
+			{
+				successCallback(newRequestResp);
+			}
+			else
+			{
+				failureCallback(newRequestResp)
+			}
+		}, failureCallback);
+	},
 	// // Gets the set of Trello Lists
 	// get_open_lists: (successCallback, failureCallback) => {
 	// 	let trello_path = MyTrello.GetFullTrelloPath("get_lists", `boardID=board_id&filter=open`);
