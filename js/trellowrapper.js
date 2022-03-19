@@ -167,18 +167,7 @@ const MyTrello = {
 			}
 		}, failureCallback);
 	},
-	// // Gets the set of Trello Lists
-	// get_open_lists: (successCallback, failureCallback) => {
-	// 	let trello_path = MyTrello.GetFullTrelloPath("get_lists", `boardID=board_id&filter=open`);
-	// 	myajax.GET(trello_path,successCallback, failureCallback);
-	// },
-
-	// // Get the archived lists
-	// get_closed_lists: (successCallback, failureCallback) => {
-	// 	let trello_path = MyTrello.GetFullTrelloPath("get_lists", `boardID=board_id&filter=closed`);
-	// 	myajax.GET(trello_path,successCallback, failureCallback);
-	// },
-
+	
 	// Gets a single trello cards
 	get_single_card: (cardID, successCallback, failureCallback) => {
 		let trello_path = MyTrello.GetFullTrelloPath("get_single_card", `cardID=${cardID}`);
