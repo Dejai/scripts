@@ -46,19 +46,23 @@ var Variables = {
 	},
 	awaiting: [],
 	arguments: {
-		comment: "This is a test comment from the Trello test suite",
 		listName: "DELETE_ME_API_TESTING",
 		newListName: "API_TESTING",
 		listState: "open",
 		newListState: "closed",
+
 		customFieldName: "Pass Phrase",
+		newCustomFieldvalue: "Test Custom Field Value",
+
 		checklistItemName: "New Checklist Item Testing",
 		newChecklistItemName: "Checklist Item Name - Updated",
+		checklistIsComplete: true,
+
 		cardName: "Test Card Name",
 		newCardDesc: "This is the description for the new card",
 		newCardName: "API_TESTING_CARD - updated V2",
-		newCustomFieldvalue: "Test Custom Field Value",
-		checklistIsComplete: true,
+		comment: "This is a test comment from the Trello test suite",
+
 	}
 }
 

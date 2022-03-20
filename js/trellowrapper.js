@@ -223,11 +223,19 @@ const MyTrello = {
 		myajax.POST(trello_path,"",{},successCallback, failureCallback);
 	},
 
-	update_card_custom_field: (cardID, customFieldID, newCustomFieldvalue, successCallback, failureCallback) => {
-		var obj = { "value":{ "text":newCustomFieldvalue } };
-		var encoded = JSON.stringify(obj);
-		let trello_path = MyTrello.GetFullTrelloPath("update_card_custom_field", `cardID=${cardID}&customFieldID=${customFieldID}`);
-		myajax.POST(trello_path,encoded,{},successCallback, failureCallback);
+	update_card_custom_field_by_name: (cardID, customFieldName, newCustomFieldvalue, successCallback, failureCallback)=>{
+		
+		MyTrello.get_custom_field_by_name(customFieldName, (customFieldData)=>{
+
+			let fieldResp = JSON.parse(customFieldData.responseText);
+			let customFieldID = fieldResp[0]?.id;
+
+			// Update the given field name
+			var obj = { "value":{ "text":newCustomFieldvalue } };
+			var encoded = JSON.stringify(obj);
+			let trello_path = MyTrello.GetFullTrelloPath("update_card_custom_field", `cardID=${cardID}&customFieldID=${customFieldID}`);
+			myajax.POST(trello_path,encoded,{},successCallback, failureCallback);
+		});
 	},
 
 	update_list_state: (listID, newListState, newListName, successCallback, failureCallback) => {
