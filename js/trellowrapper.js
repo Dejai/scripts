@@ -69,6 +69,26 @@ const MyTrello = {
 		myajax.GET(trello_path,successCallback, failureCallback);
 	},
 
+	// Get a list of Trello Cards
+	get_cards_by_list_name: (listName, successCallback, failureCallback) => {
+
+		MyTrello.get_list_by_name(listName, (listData)=>{
+
+			let listResp = JSON.parse(listData.responseText);
+			let listID = listResp[0]?.id;
+
+			if(listID != undefined)
+			{
+				let trello_path = MyTrello.GetFullTrelloPath("get_cards", `listID=${listID}`);
+				myajax.GET(trello_path,successCallback, failureCallback);
+			}
+			else
+			{
+				failureCallback(listData);
+			}
+		});
+	},
+
 	// Get the comments; Via call = get_actions
 	get_comments: (cardID, successCallback, failureCallback) => {
 		let trello_path = MyTrello.GetFullTrelloPath("get_actions", `cardID=${cardID}&filter=commentCard`);
