@@ -12,15 +12,6 @@ const mydoc = {
 		document.addEventListener("DOMContentLoaded", callback);
 	},
 
-	loadContent: function(content, identifier)
-	{
-		element = document.getElementById(identifier);
-		if(element != undefined)
-		{
-			element.innerHTML = content;
-		}
-	},
-
 	// Add a test banner to indicate this is a test run;
 	addTestBanner: function(content=undefined){
 
@@ -34,6 +25,16 @@ const mydoc = {
 		body.insertBefore(banner, body.firstChild);
 	},
 
+
+	loadContent: function(content, identifier)
+	{
+		element = document.getElementById(identifier);
+		if(element != undefined)
+		{
+			element.innerHTML = content;
+		}
+	},
+
 	// Show content based on query selector
 	showContent: function(selector){
 		this._toggleClass(selector, "remove", "hidden");
@@ -42,6 +43,29 @@ const mydoc = {
 	// Hide based on query selector
 	hideContent: function(selector){
 		this._toggleClass(selector, "add", "hidden");
+	},
+
+	getContent: function(selector) {
+
+		let content = {"innerText":undefined, "innerHTML":undefined, "value":undefined }
+		try 
+		{
+			let ele = document.querySelector(selector);
+			if(ele != undefined)
+			{
+				content["innerText"] = ele.innerText;
+				content["innerHTML"] = ele.innerHTML;
+				content["value"] = ele.value ?? undefined;
+			}	
+		} 
+		catch (err)
+		{
+			console.log(err);
+		}
+		finally
+		{
+			return content;
+		}
 	},
 
 	// Set a cookie; Expiration provided in minutes;
