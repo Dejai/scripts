@@ -243,6 +243,12 @@ const MyTrello = {
 		myajax.POST(trello_path,"",{},successCallback, failureCallback);
 	},
 
+	// Update the Card's list
+	update_card_list: (cardID, newListID, successCallback) => {
+		let trello_path = MyTrello.GetFullTrelloPath("update_card", `cardID=${cardID}&idList=${newListID}&pos=top`)
+		myajax.POST(trello_path, "", {}, successCallback, failureCallback);
+	},
+
 	update_card_custom_field_by_name: (cardID, customFieldName, newCustomFieldvalue, successCallback, failureCallback)=>{
 		
 		MyTrello.get_custom_field_by_name(customFieldName, (customFieldData)=>{
