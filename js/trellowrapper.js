@@ -244,7 +244,7 @@ const MyTrello = {
 	},
 
 	// Update the Card's list
-	update_card_list: (cardID, newListID, successCallback) => {
+	update_card_list: (cardID, newListID, successCallback, failureCallback) => {
 		let trello_path = MyTrello.GetFullTrelloPath("update_card", `cardID=${cardID}&idList=${newListID}&pos=top`)
 		myajax.POST(trello_path, "", {}, successCallback, failureCallback);
 	},
