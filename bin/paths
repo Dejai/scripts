@@ -1,0 +1,12 @@
+#author: The Dancing Lion
+
+#!/bin/bash
+sep='\n--------------------------------\n'
+echo -e $sep;
+echo 'List of Paths for Commands'
+echo -e $sep
+echo $PATH | tr ':' '\n'
+echo -e '\n'
+echo -e $sep
+echo -e "NOTE: To edit the paths: sudo nano /etc/paths"
+echo -e '\n'
