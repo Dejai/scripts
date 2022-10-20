@@ -76,7 +76,7 @@ const mydoc = {
 		} 
 		catch (err)
 		{
-
+			console.err(err);
 		}
 	},
 
