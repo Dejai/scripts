@@ -45,6 +45,41 @@ const mydoc = {
 		this._toggleClass(selector, "add", "hidden");
 	},
 
+	// Set the content of an HTML element
+	setContent: function(selector,contentObj){
+
+		try
+		{
+			let elements = document.querySelectorAll(selector);
+
+			elements.forEach( (ele)=>{
+
+				// Set innerText if provided
+				if(contentObj.hasOwnProperty("innerText"))
+				{
+					ele.innerText = contentObj["innerText"];
+				}
+
+				// Set innerHTML if provided
+				if(contentObj.hasOwnProperty("innerHTML"))
+				{
+					ele.innerHTML = contentObj["innerHTML"];
+				}
+
+				// Set value if provided
+				if(contentObj.hasOwnProperty("value"))
+				{
+					ele.value = contentObj["value"];
+				}
+			});
+			
+		} 
+		catch (err)
+		{
+
+		}
+	},
+
 	getContent: function(selector) {
 
 		let content = {"innerText":undefined, "innerHTML":undefined, "value":undefined }
