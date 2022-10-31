@@ -190,7 +190,7 @@ const MyTrello = {
 	
 	// Gets a single trello cards
 	get_single_card: (cardID, successCallback, failureCallback) => {
-		let trello_path = MyTrello.GetFullTrelloPath("get_single_card", `cardID=${cardID}&checklists=all`);
+		let trello_path = MyTrello.GetFullTrelloPath("get_single_card", `cardID=${cardID}&checklists=all&attachments=true`);
 		myajax.GET(trello_path,successCallback, failureCallback);
 	},
 
