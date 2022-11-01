@@ -97,7 +97,7 @@ const MyTrello = {
 
 	// Gets a single trello card's actions
 	get_card_attachment: (cardID, attachmentID, fileName, successCallback, failureCallback) => {
-		let trello_path = MyTrello.GetFullTrelloPath("get_card_attachments", `cardID=${cardID}&attachmentID=${attachmentID}&fileNameID=${fileName}`);
+		let trello_path = MyTrello.GetFullTrelloPath("get_card_attachment", `cardID=${cardID}&attachmentID=${attachmentID}&fileNameID=${fileName}`);
 		myajax.GET(trello_path,successCallback, failureCallback);
 	},
 
