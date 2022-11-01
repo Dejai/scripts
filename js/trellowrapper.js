@@ -96,8 +96,8 @@ const MyTrello = {
 	},
 
 	// Gets a single trello card's actions
-	get_card_attachments: (cardID, successCallback, failureCallback) => {
-		let trello_path = MyTrello.GetFullTrelloPath("get_card_attachments", `cardID=${cardID}`);
+	get_card_attachment: (cardID, attachmentID, fileName, successCallback, failureCallback) => {
+		let trello_path = MyTrello.GetFullTrelloPath("get_card_attachments", `cardID=${cardID}&attachmentID=${attachmentID}&fileNameID=${fileName}`);
 		myajax.GET(trello_path,successCallback, failureCallback);
 	},
 
@@ -207,6 +207,23 @@ const MyTrello = {
 	create_card: (listID, cardName, successCallback, failureCallback) => {
 		let trello_path = MyTrello.GetFullTrelloPath("create_card", `name=${cardName}&idList=${listID}&pos=top`);
 		myajax.POST(trello_path,"",{},successCallback, failureCallback);
+	},
+
+	// Creates a new Trello Card
+	create_card_attachment: (cardID, fileName, jsonObject, successCallback, failureCallback) => {
+
+		var jsonData = JSON.stringify(jsonObject);
+		const jsonFile = new File([jsonData], fileName, {
+			type: "application/json",
+		  });
+		
+		// Create form data
+		const formData = new FormData();
+		formData.append("file", jsonFile);
+
+		// Get path and send
+		let trello_path = MyTrello.GetFullTrelloPath("create_card_attachment",`cardID=${cardID}&mimeType=application/json&name=${fileName}`)
+		myajax.POST(trello_path,formData,{},successCallback, failureCallback);
 	},
 
 	// Add a comment to a card
