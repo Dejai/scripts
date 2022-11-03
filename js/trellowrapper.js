@@ -298,4 +298,12 @@ const MyTrello = {
 		let trello_path = MyTrello.GetFullTrelloPath("update_checklist_item", `cardID=${cardID}&checklistItemID=${checklistItemID}&name=${newChecklistItemName}`);
 		myajax.POST(trello_path,"",{},successCallback, failureCallback);
 	},
+
+/*** DELETE Calls ***/
+	// Delete a card attachment
+	delete_card_attachment: (cardID, attachmentID, successCallback, failureCallback) =>{
+		let trello_path = MyTrello.GetFullTrelloPath("delete_card_attachment", `cardID=${cardID}&attachmentID=${attachmentID}`);
+		myajax.POST(trello_path,"",{},successCallback,failureCallback);
+	}
+
 }
