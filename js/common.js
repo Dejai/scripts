@@ -74,6 +74,13 @@ const mydoc = {
 					let existing = (append) ? ele.value : "";
 					ele.value = existing + contentObj["value"];
 				}
+
+				// Set checked if provided
+				if(contentObj.hasOwnProperty("checked"))
+				{
+					// let existing = (append) ? ele.value : "";
+					ele.checked = contentObj["checked"];
+				}
 			});
 			
 		} 
