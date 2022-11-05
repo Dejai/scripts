@@ -46,7 +46,7 @@ const mydoc = {
 	},
 
 	// Set the content of an HTML element
-	setContent: function(selector,contentObj){
+	setContent: function(selector,contentObj,append=false){
 
 		try
 		{
@@ -57,19 +57,22 @@ const mydoc = {
 				// Set innerText if provided
 				if(contentObj.hasOwnProperty("innerText"))
 				{
-					ele.innerText = contentObj["innerText"];
+					let existing = (append) ? ele.innerText : "";
+					ele.innerText = existing + contentObj["innerText"];
 				}
 
 				// Set innerHTML if provided
 				if(contentObj.hasOwnProperty("innerHTML"))
 				{
-					ele.innerHTML = contentObj["innerHTML"];
+					let existing = (append) ? ele.innerHTML : "";
+					ele.innerHTML = existing + contentObj["innerHTML"];
 				}
 
 				// Set value if provided
 				if(contentObj.hasOwnProperty("value"))
 				{
-					ele.value = contentObj["value"];
+					let existing = (append) ? ele.value : "";
+					ele.value = existing + contentObj["value"];
 				}
 			});
 			
