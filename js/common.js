@@ -52,35 +52,19 @@ const mydoc = {
 		{
 			let elements = document.querySelectorAll(selector);
 
+			let contentKeys = Object.keys(contentObj);
+
 			elements.forEach( (ele)=>{
 
-				// Set innerText if provided
-				if(contentObj.hasOwnProperty("innerText"))
-				{
-					let existing = (append) ? ele.innerText : "";
-					ele.innerText = existing + contentObj["innerText"];
-				}
-
-				// Set innerHTML if provided
-				if(contentObj.hasOwnProperty("innerHTML"))
-				{
-					let existing = (append) ? ele.innerHTML : "";
-					ele.innerHTML = existing + contentObj["innerHTML"];
-				}
-
-				// Set value if provided
-				if(contentObj.hasOwnProperty("value"))
-				{
-					let existing = (append) ? ele.value : "";
-					ele.value = existing + contentObj["value"];
-				}
-
-				// Set checked if provided
-				if(contentObj.hasOwnProperty("checked"))
-				{
-					// let existing = (append) ? ele.value : "";
-					ele.checked = contentObj["checked"];
-				}
+				// Loop through the keys passed in, and set those if the element has that as a property
+				contentKeys.forEach( (key)=>{
+					let existingProperty = ele[key];
+					if(existingProperty != undefined)
+					{
+						let newValue = contentObj[key] 
+						ele[key] = (append) ? existingProperty + newValue : newValue;
+					}
+				});
 			});
 			
 		} 
