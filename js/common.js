@@ -268,6 +268,40 @@ const mydoc = {
 		{
 			window.history.pushState(state, "", path);
 		}
+	},
+
+	// Get the appropraite search path for modifying window history (accounts for existing)
+	getNewSearch(newQueryMap)
+	{
+
+		// Get original query map/keys
+		let queryMap = mydoc.get_query_map();
+		let queryKeys = Object.keys(queryMap);
+
+		// Get the set of new keys
+		let newKeys = Object.keys(newQueryMap);
+
+		// Get the unique ones
+		let uniqueKeys = Array.from(new Set(queryKeys.concat(newKeys)));
+
+		// Build a search based on old+new;
+		let search = "";
+		if(uniqueKeys.length > 0)
+		{
+			uniqueKeys.forEach( (key)=>{
+
+				// Separator for the values
+				let sep = (search == "") ? "?" : "&";
+
+				let ogValue = queryMap[key] ?? "";
+				let newValue = newQueryMap[key] ?? "";
+
+				let value = (newValue != "") ? newValue : ogValue;
+
+				search += `${sep}${key}=${value}`;
+			});
+		}
+		return search;
 	}
 
 };
