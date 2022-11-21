@@ -25,7 +25,7 @@ const mydoc = {
 		body.insertBefore(banner, body.firstChild);
 	},
 
-
+	// DEPRACATED: Originally used to get content into an element; Replaced with "setContent(...)"
 	loadContent: function(content, identifier)
 	{
 		element = document.getElementById(identifier);
@@ -74,6 +74,7 @@ const mydoc = {
 		}
 	},
 
+	// Get the content of an HTML element
 	getContent: function(selector) {
 
 		let content = {"innerText":undefined, "innerHTML":undefined, "value":undefined }
@@ -165,24 +166,31 @@ const mydoc = {
 		mydoc._toggleClass(selector, action, className);
 	},
 
-	isValidValue : function(value)
+	// Determines if the given value is a valid type
+	isValidValue : function(type, value)
 	{
 		let isValid = false;
-		switch(typeof(value))
+		let typedValue = undefined; 
+		let expectedType = type.toLowerCase();
+
+		switch(expectedType)
 		{
 			case "number":
 				isValid = ( !isNaN(Number(value)) );
+				typedValue = (isValid) ? Number(value) : value;
 				break;
 			case "string":
 				isValid = (value != undefined && value != "");
+				typedValue = (isValid) ? value.toString() : value;
 				break;
 			case "function":
 				isValid = (typeof(value) == "function")
+				typedValue = value;
 				break;
 			default:
 				isValid = false;
 		}
-		return isValid;
+		return {"success": isValid, "value":typedValue }
 	},
 
 	get_query_param: function(key){
@@ -243,7 +251,25 @@ const mydoc = {
 		{
 			Logger.log(error, true);
 		}
+	},
+
+	// Add history to window history (with option to replace or not)
+	addWindowHistory(jsonObj, replace=false)
+	{
+		let state = jsonObj?.state ?? "";
+		let path = jsonObj?.path ?? "";
+		
+		// Replace or add
+		if(replace)
+		{
+			window.history.replaceState(state, "", path);
+		}
+		else
+		{
+			window.history.pushState(state, "", path);
+		}
 	}
+
 };
 
 // Used for general AJAX things
