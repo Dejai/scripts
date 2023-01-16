@@ -24,7 +24,7 @@ const mydoc = {
 		let body = document.querySelector("body");
 		body.insertBefore(banner, body.firstChild);
 	},
-
+	
 	// DEPRACATED: Originally used to get content into an element; Replaced with "setContent(...)"
 	loadContent: function(content, identifier)
 	{

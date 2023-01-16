@@ -35,7 +35,7 @@ const MyTrello = {
 
 	// Get Custom Fields;
 	get_custom_fields: (successCallback, failureCallback) => {
-		let trello_path = MyTrello.GetFullTrelloPath("get_custom_fields", `boardID=board_id`);
+		let trello_path = MyTrello.GetFullTrelloPath("get_custom_fields");
 		myajax.GET(trello_path,successCallback, failureCallback);
 	},
 
@@ -155,7 +155,7 @@ const MyTrello = {
 
 	// Get Labels
 	get_labels: (successCallback, failureCallback) => {
-		let trello_path = MyTrello.GetFullTrelloPath("get_labels", `boardID=board_id`);
+		let trello_path = MyTrello.GetFullTrelloPath("get_labels");
 		myajax.GET(trello_path,successCallback, failureCallback);
 	},
 
@@ -163,7 +163,7 @@ const MyTrello = {
 	get_lists: (listState, successCallback, failureCallback) => {
 		let state = (listState.startsWith("close")) ? "closed" :  (listState.startsWith("open")) ? "open" : undefined;
 		let filter = (state != undefined) ? `filter=${state}` : "";
-		let trello_path = MyTrello.GetFullTrelloPath("get_lists", `boardID=board_id&${filter}`);
+		let trello_path = MyTrello.GetFullTrelloPath("get_lists", `${filter}`);
 		myajax.GET(trello_path,successCallback, failureCallback);
 	},
 
@@ -190,7 +190,7 @@ const MyTrello = {
 	
 	// Gets a single trello cards
 	get_single_card: (cardID, successCallback, failureCallback) => {
-		let trello_path = MyTrello.GetFullTrelloPath("get_single_card", `cardID=${cardID}&checklists=all&attachments=true`);
+		let trello_path = MyTrello.GetFullTrelloPath("get_single_card", `cardID=${cardID}&checklists=all&attachments=true&customFieldItems=true`);
 		myajax.GET(trello_path,successCallback, failureCallback);
 	},
 
@@ -199,7 +199,7 @@ const MyTrello = {
 
 	// Create a new list
 	create_list: (listName,successCallback, failureCallback) => {
-		let trello_path = MyTrello.GetFullTrelloPath("create_list", `boardID=board_id&name=${listName}`);
+		let trello_path = MyTrello.GetFullTrelloPath("create_list", `name=${listName}`);
 		myajax.POST(trello_path,"",{},successCallback, failureCallback);
 	},
 
