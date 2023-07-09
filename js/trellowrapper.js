@@ -260,6 +260,12 @@ const MyTrello = {
 		myajax.POST(trello_path,"",{},successCallback, failureCallback);
 	},
 
+	// Add a label on a card
+	update_card_label: (cardID, labelID, successCallback, failureCallback) => {
+		let trello_path = MyTrello.GetFullTrelloPath("update_card_label", `cardID=${cardID}&value=${labelID}`);
+		myajax.POST(trello_path, "", {}, successCallback, failureCallback);
+	},
+
 	// Update the Card's list
 	update_card_list: (cardID, newListID, successCallback, failureCallback) => {
 		let trello_path = MyTrello.GetFullTrelloPath("update_card", `cardID=${cardID}&idList=${newListID}&pos=top`)
@@ -304,6 +310,11 @@ const MyTrello = {
 	delete_card_attachment: (cardID, attachmentID, successCallback, failureCallback) =>{
 		let trello_path = MyTrello.GetFullTrelloPath("delete_card_attachment", `cardID=${cardID}&attachmentID=${attachmentID}`);
 		myajax.POST(trello_path,"",{},successCallback,failureCallback);
-	}
+	},
 
+	// Remove a card label
+	delete_card_label: (cardID, labelID, successCallback, failureCallback) => {
+		let trello_path = MyTrello.GetFullTrelloPath("delete_card_label", `cardID=${cardID}&labelID=${labelID}`);
+		myajax.POST(trello_path, "", {}, successCallback, failureCallback);
+	}
 }
