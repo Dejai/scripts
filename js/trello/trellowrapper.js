@@ -12,7 +12,7 @@ class TrelloWrapper {
     // Get the full API call path for a given command (with optional params)
     #GetFullTrelloPath(command, params="") {
         params = (params != "") ? "?" + params : "";
-        return `${this.Endpoint}/${this.BoardName}/${command.toLower()}/${params}`;
+        return `${this.Endpoint}/${this.BoardName}/${command.toLowerCase()}/${params}`;
     }
 
     // Get a modified response text
