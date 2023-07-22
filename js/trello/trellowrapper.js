@@ -7,7 +7,7 @@ class TrelloWrapper {
 
     constructor(boardName){
         this.BoardName = boardName
-        this.EndPoint = "https://trello.the-dancinglion.workers.dev"
+        this.Endpoint = "https://trello.the-dancinglion.workers.dev"
     }
     // Get the full API call path for a given command (with optional params)
     #GetFullTrelloPath(command, params="") {
