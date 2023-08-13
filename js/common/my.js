@@ -71,7 +71,7 @@ const MyAuth = {
 // Manage cookies
 const MyCookies = {
 	// Get a cookie by name
-	getCookie: function(cookieName){
+	getCookie: (cookieName) => {
 		
 		// Set default return value
 		returnValue = undefined;
@@ -99,7 +99,7 @@ const MyCookies = {
 	},
 
 	// Set a cookie; Expiration provided in minutes;
-	setCookie: function(cookieName, cookieValue, attributes={}){ // expirationMins=undefined, cookiePath=undefined){
+	setCookie: (cookieName, cookieValue, attributes={}) => { // expirationMins=undefined, cookiePath=undefined){
 
 		// Base cookie;
 		var cookie = `${cookieName}=${cookieValue}`;
@@ -465,6 +465,7 @@ const MyLogger = {
 		});
 	}
 }
+
 // Custom class used to easily identify my log messages
 class MyMessage {
     constructor(type, message){
