@@ -563,7 +563,7 @@ const MyTemplates = {
     getTemplate: async (filePath, object, callback) =>   {
 
 		// Use Fetch API to get the template
-		MyFetch.call("GET", filePath, "text")
+		MyFetch.call("GET", filePath, {"responseType":"text"} )
 			.then( (template) => {
 				// The content after template is updated
 				var content = "";
