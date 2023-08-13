@@ -6,7 +6,35 @@ Purpose: A set of constant JS objects that I can reference on other pages easily
 // Auth manager;
 const MyAuth = {
 	AuthUrl: "https://auth.the-dancinglion.workers.dev",
-	CookieName: "DejaiTheKid-Session",
+
+	// Handle the login page loading
+	onLogin: async () => {
+		try {
+			var isLoggedIn = await MyAuth.isLoggedIn();
+			if(isLoggedIn){
+				MyUrls.navigateTo(document.referrer);
+			} else { 
+				MyAuth.showLogins();
+			}
+		} catch (err) {
+			MyDom.showContent(".showOnLoginFail");
+		}
+	},
+
+	// Handle th logout page loading
+	onLogout: async () => {
+		try{
+			var isLoggedIn = await MyAuth.isLoggedIn();
+			console.log(isLoggedIn);
+			if(isLoggedIn){
+				await MyAuth.logOut();
+			}
+			// Go back to the prev page
+			MyUrls.navigateTo(document.referrer);
+		} catch(err){
+			MyDom.showContent(".showOnLogoutFail");
+		}
+	},
 
 	// Show the login frame
 	showLogins: () => {
@@ -29,7 +57,7 @@ const MyAuth = {
 			const eventJson = JSON.parse(event.data);
 			if( eventJson?.status == 200 ){
 				// Set cookie first
-				MyCookies.setCookie(MyAuth.CookieName, eventJson?.token ?? "");
+				MyCookies.setCookie(MyCookies.getCookieName("Session"), eventJson?.token ?? "");
 
 				// Then validate & return if successful
 				var toHref = encodeURIComponent(document.referrer);
@@ -49,7 +77,7 @@ const MyAuth = {
 	logOut: async () => {
 		var isLogOut = await MyAuth.checkSession("logout");
 		if(isLogOut){
-			MyCookies.deleteCookie(MyAuth.CookieName);
+			MyCookies.deleteCookie(MyCookies.getCookieName("Session"));
 		}
 		return isLogOut;
 	},
@@ -57,7 +85,7 @@ const MyAuth = {
 	// Check cookie/session & take given action
 	checkSession: async(action) => {
 		var results = false;
-		var cookie = MyCookies.getCookie(MyAuth.CookieName);
+		var cookie = MyCookies.getCookie(MyCookies.getCookieName("Session"));
 		if(cookie != undefined){
 			var postCall = `${MyAuth.AuthUrl}/session/${action}`;
 			var sessionObj = { "session":cookie };
@@ -65,11 +93,14 @@ const MyAuth = {
 			results = data?.session ?? false;
 		}
 		return results;
-	}
+	},
+
+
 }
 
 // Manage cookies
 const MyCookies = {
+
 	// Get a cookie by name
 	getCookie: (cookieName) => {
 		
@@ -123,6 +154,12 @@ const MyCookies = {
 	// "Delete" a cookie by expiring it
 	deleteCookie: (cookieName) => {
 		MyCookies.setCookie(cookieName, "-", {"Max-Age":0} );
+	},
+
+	// Get a structured cookie name
+	getCookieName: (suffix) => {
+		var suffixUpper = suffix.toUpperCase();
+		return `DTK-${suffixUpper}`;
 	},
 
 	// Get an expiration date based on mins

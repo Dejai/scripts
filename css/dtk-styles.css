@@ -1,0 +1,131 @@
+/* Common styles I've used across the different pages */
+
+/* General purpose */
+    .hidden { display:none !important; }
+	.invisible { visibility: hidden;} 
+    .pointer { cursor:pointer; }
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Old versions of Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+                user-select: none; /* Non-prefixed version, currently
+                                        supported by Chrome, Edge, Opera and Firefox */
+    }
+
+/* Alignment (text-based) */
+	.centered { text-align:center; }
+	.lefted   { text-align:left; }
+	.righted  { text-align:right; }
+
+/* Alignment (margin-based) */
+	.dtk-center-block-small { margin:auto; width:40%;}
+	.dtk-center-block-medium { margin:auto; width:60%;}
+	.dtk-center-block-large { margin:auto; width:80%;}
+	.dtk-center-block-xlarge { margin:auto; width:90%;}
+	.dtk-center-block-xxlarge { margin:auto; width:99%;}
+
+/* Buttons */
+
+	/*Button Shape & hover*/
+	.dtk-button { cursor:pointer; font-weight:bolder; border:none; }
+	.dtk-button:focus { outline: none; box-shadow:none; }
+	.dtk-button-padded { padding: 2% 1%}
+	.dtk-button-round-corners { border-radius:77px; }
+
+	/*Button Sizes*/
+	.dtk-button-small { font-size: 50%; }
+	.dtk-button-large { font-size: 140%; }
+	.dtk-button-xlarge { font-size: 190%; }
+	.dtk-button-xxlarge { font-size: 200%; }
+	.dtk-button-xxxlarge { font-size: 250%; }
+
+	/* Button Colors */
+	.dtk-button-blue { background-color:blue !important; color:white !important;}
+	.dtk-button-red { background-color:red !important; color:white !important;}
+	.dtk-button-orange { background-color:orange !important; color:black !important;}
+	.dtk-button-limegreen { background-color:limegreen !important; color:black !important;}
+	.dtk-button-green { background-color:green !important; color:white !important;}
+	.dtk-button-purple { background-color:purple !important; color:white !important;}
+	.dtk-button-violet { background-color:violet !important; color:black !important;}
+	.dtk-button-gold { background-color:goldenrod !important; color:black !important;}
+	.dtk-button-yellow { background-color:yellow !important; color:black !important;}
+	.dtk-button-gray { background-color:gray !important; color:lightgray !important;}
+
+	
+/* Hyperlinks */	
+	.dtk-href-no-textdecoration { text-decoration:none !important; }
+	.dtk-href-no-textdec { text-decoration:none !important; }
+
+/* Paragraphs */
+	.dtk-paragraph-medium { font-size:80%; }
+	.dtk-paragraph-large { font-size: 150%; }
+	.dtk-paragraph-xlarge { font-size: 190%; }
+	.dtk-paragraph-xxlarge { font-size: 220%; }
+	.dtk-paragraph-xxxlarge { font-size: 250%; }
+
+
+/* Select Inputs */
+	.dtk-select { padding:3%; border:none; }
+	.dtk-select:focus { outline:none; }
+	.dtk-select-round-corners { border-radius:77px; }
+
+	.dtk-select-small { font-size: 50%; width:50%; }
+	.dtk-select-large { font-size: 140%; width:100%;}
+	.dtk-select-xlarge { font-size: 190%; width:100%;}
+	.dtk-select-xxlarge { font-size: 200%; width:100%;}
+	.dtk-select-xxxlarge { font-size: 250%; width:100%;}
+
+	.dtk-select-red { background-color:red; color:white; }
+	.dtk-select-blue { background-color:blue; color:white; }
+
+
+/* Tables */
+	.dtk-table { border-spacing: 0; }
+	.dtk-table-small { width:25%; }
+	.dtk-table-medium { width:50%; }
+	.dtk-table-large { width:100%; }
+
+/* Themes: */
+	
+	/* Black Background */
+	body.dtk-theme-black-bg { background-color:black; color:white; }
+
+    
+/**************************************************** 
+	MEDIA SCREENS
+*****************************************************/
+
+@media only screen and (min-device-width:1200px)
+{
+	/* Headings */
+	.dtk-title { font-size:2em;}
+
+	/* Alignment */
+	.dtk-center-block-small { margin:auto; width:30%;}
+	.dtk-center-block-medium { margin:auto; width:50%;}
+	.dtk-center-block-large { margin:auto; width:70%;}
+	.dtk-center-block-xlarge { margin:auto; width:80%;}
+	.dtk-center-block-xxlarge { margin:auto; width:90%;}
+
+	/*Button Sizes*/
+	.dtk-button-large { font-size: initial; }
+	.dtk-button-xlarge { font-size: initial; }
+	.dtk-button-xxlarge { font-size: initial; }
+	.dtk-button-xxxlarge { font-size: initial; }
+
+	/* Select Input Sizes*/
+	.dtk-select-small { font-size: initial; }
+	.dtk-select-large { font-size: initial; }
+	.dtk-select-xlarge { font-size: initial; }
+	.dtk-select-xxlarge { font-size: initial; }
+	.dtk-select-xxxlarge { font-size: initial; }
+
+	/* Paragraph sizes */
+	.dtk-paragraph-medium { font-size: initial; }
+	.dtk-paragraph-large { font-size: initial; }
+	.dtk-paragraph-xlarge { font-size: initial; }
+	.dtk-paragraph-xxlarge { font-size: initial; }
+	.dtk-paragraph-xxxlarge { font-size: initial; }
+}
