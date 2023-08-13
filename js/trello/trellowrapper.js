@@ -51,10 +51,8 @@ class TrelloWrapper {
 	// Get a custom field specifically by name
 	GetCustomFieldsByName(customFieldName, successCallback, failureCallback){
 		this.GetCustomFields( (customFieldData)=>{
-			let fieldsResp = JSON.parse(customFieldData.responseText);
-			let singleField = fieldResp.filter( val => val.name == customFieldName);
-			let modResp = this.#GetModifiedReponse(customFieldData.status, singleField);
-			var _return = (modResp.status == 200 ) ? successCallback(modResp) : failureCallback(modResp);
+			let singleField = customFieldData.filter( val => val.name == customFieldName);
+			var _return = (singleField != undefined ) ? successCallback(singleField) : failureCallback(singleField);
 		}, failureCallback)
 	}
 
@@ -72,17 +70,14 @@ class TrelloWrapper {
 
 	// Get a list of Trello Cards
 	GetCardsByListName(listName, successCallback, failureCallback){
-		this.GetListByName(listName, (listData)=>{
-			let listResp = JSON.parse(listData.responseText);
+
+		this.GetListByName(listName, (listResp)=>{
 			let listID = listResp[0]?.id;
-			if(listID != undefined)
-			{
+			if(listID != undefined){
 				let trello_path = this.#GetFullTrelloPath("get_cards", `listID=${listID}`);
 				this.#Get(trello_path,successCallback, failureCallback);
-			}
-			else
-			{
-				failureCallback(listData);
+			} else {
+				failureCallback(listResp);
 			}
 		});
 	}
@@ -150,10 +145,12 @@ class TrelloWrapper {
 	// Get a specific list based on name
 	GetListByName(listName, successCallback, failureCallback){
 		this.GetLists("any", (data)=>{
-			let listsResp = JSON.parse(data.responseText);
-			let singleList = listsResp.filter(  val => (val.name == listName) );
-			let modResp = this.#GetModifiedReponse(data.status, singleList);
-            var _return = (data.status == 200) ? successCallback(modResp) : failureCallback(modResp);
+			let singleList = data?.filter(  val => (val.name == listName) );
+			if(singleList != undefined){
+				successCallback(singleList);
+			} else {
+				failureCallback(singleList);
+			}
 		}, failureCallback);
 	}
 
@@ -210,8 +207,7 @@ class TrelloWrapper {
 	// Update a custom field on a card specifically by name
 	UpdateCardCustomFieldByName(cardID, customFieldName, newCustomFieldvalue, successCallback, failureCallback){
 		this.GetCustomFieldsByName(customFieldName, (customFieldData)=>{
-			let fieldResp = JSON.parse(customFieldData.responseText);
-			let customFieldID = fieldResp[0]?.id;
+			let customFieldID = customFieldData[0]?.id;
 			// Update the given field name
 			var obj = { "value":{ "text":newCustomFieldvalue } };
 			var encoded = JSON.stringify(obj);
