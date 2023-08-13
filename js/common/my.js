@@ -36,6 +36,33 @@ const MyAuth = {
 		}
 	},
 
+	// Checking if user is already logged in (this is on a non-login page)
+	onGetLoginDetails: async (attributes={}) => {
+
+		var sessionDetails = await MyAuth.getSessionDetails("active");
+		var isLoggedIn =(sessionDetails?.active ?? false);
+		var userName = sessionDetails?.user ?? "";
+
+		// The key values to set
+		var loginText = attributes?.Login?.Text ?? "LOG IN";
+		var loginHref = attributes?.Login?.Href ?? "/auth/login.html";
+
+		var logoutText = attributes?.Logout?.Text ?? "LOG OUT";
+		var logoutHref = attributes?.Logout?.Href ?? "/auth/logout.html";
+
+		// The key attributes to set
+		var href = (isLoggedIn) ? logoutHref : loginHref;
+		var text = (isLoggedIn) ? logoutText : loginText;
+
+        // Set the login/logout links
+		var className = attributes?.ClassName ?? "authLink";
+        MyDom.setContent(`.${className}`, {
+											"href": href, 
+											"innerText":text,
+											"data-dtk-user": userName
+											});
+	},
+
 	// Show the login frame
 	showLogins: () => {
 		var frame = document.querySelector("#dtk-LoginFrame");
@@ -69,13 +96,15 @@ const MyAuth = {
 
 	// Check if login was successful or failed
 	isLoggedIn: async () => {
-		var isLoggedIn = await MyAuth.checkSession("active");
+		var details = await MyAuth.getSessionDetails("active");
+		var isLoggedIn = (details?.active ?? false)
 		return isLoggedIn
 	},
 
 	// Logout of the app
 	logOut: async () => {
-		var isLogOut = await MyAuth.checkSession("logout");
+		var details = await MyAuth.getSessionDetails("logout");
+		var isLogOut = !(details?.acive ?? true); //opposite of active status;
 		if(isLogOut){
 			MyCookies.deleteCookie(MyCookies.getCookieName("Session"));
 		}
@@ -83,14 +112,13 @@ const MyAuth = {
 	},
 
 	// Check cookie/session & take given action
-	checkSession: async(action) => {
+	getSessionDetails: async(action) => {
 		var results = false;
 		var cookie = MyCookies.getCookie(MyCookies.getCookieName("Session"));
 		if(cookie != undefined){
 			var postCall = `${MyAuth.AuthUrl}/session/${action}`;
 			var sessionObj = { "session":cookie };
-			var data = await MyFetch.call("POST", postCall, { body: JSON.stringify(sessionObj) } );
-			results = data?.session ?? false;
+			results = await MyFetch.call("POST", postCall, { body: JSON.stringify(sessionObj) } );
 		}
 		return results;
 	},
