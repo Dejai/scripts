@@ -38,10 +38,10 @@ const MyAuth = {
 
 	// Show the login frame
 	showLogins: () => {
-		var frame = document.querySelector("#dtkLoginFrame");
+		var frame = document.querySelector("#dtk-LoginFrame");
 		if(frame != undefined){
 			frame.src = `${MyAuth.AuthUrl}/logins`;
-			MyDom.showContent("#dtkLoginFrame");
+			MyDom.showContent("#dtk-LoginFrame");
 		}
 		// If showing login section, then listen for login details
 		MyAuth.listenForLogin();
