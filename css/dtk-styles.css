@@ -27,7 +27,6 @@
 	.dtk-center-block-xxlarge { margin:auto; width:99%;}
 
 /* Buttons */
-
 	/*Button Shape & hover*/
 	.dtk-button { cursor:pointer; font-weight:bolder; border:none; }
 	.dtk-button:focus { outline: none; box-shadow:none; }
@@ -52,11 +51,13 @@
 	.dtk-button-gold { background-color:goldenrod !important; color:black !important;}
 	.dtk-button-yellow { background-color:yellow !important; color:black !important;}
 	.dtk-button-gray { background-color:gray !important; color:lightgray !important;}
-
 	
 /* Hyperlinks */	
 	.dtk-href-no-textdecoration { text-decoration:none !important; }
 	.dtk-href-no-textdec { text-decoration:none !important; }
+
+/* iFrames */
+	.dtk-frame-login { width: 100%; border: none; height:100%; }
 
 /* Paragraphs */
 	.dtk-paragraph-medium { font-size:80%; }
@@ -88,9 +89,8 @@
 	.dtk-table-large { width:100%; }
 
 /* Themes: */
-	
 	/* Black Background */
-	body.dtk-theme-black-bg { background-color:black; color:white; }
+	body.dtk-theme-blackbg { background-color:black; color:white; }
 
     
 /**************************************************** 
