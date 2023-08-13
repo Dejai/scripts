@@ -19,18 +19,6 @@ const MyAuth = {
 		MyAuth.listenForLogin();
 	},
 
-	// Only call if on a login page (to either return to home page or show login options)
-	loginPage: async () => {
-		MyAuth.listenForLogin();		
-		var isLoggedIn = await MyAuth.hasActiveLogin();
-		if(isLoggedIn){
-			// Show things that should show if logged in;
-			MyDom.showContent(".isLogin");
-		} else {
-			MyAuth.showLogins();
-		}
-	},
-
 	// Listen for post messages from the login frame;
 	listenForLogin: () => {
 		console.log("Adding listener for post messages");
@@ -52,18 +40,18 @@ const MyAuth = {
 	},
 
 	// Check if login was successful or failed
-	hasActiveLogin: async () => {
+	isLoggedIn: async () => {
 		var isLoggedIn = await MyAuth.checkSession("active");
 		return isLoggedIn
 	},
 
 	// Logout of the app
 	logOut: async () => {
-		var loggedOut = await MyAuth.checkSession("logout");
-		if(loggedOut){
+		var isLogOut = await MyAuth.checkSession("logout");
+		if(isLogOut){
 			MyCookies.deleteCookie(MyAuth.CookieName);
-			MyUrls.refreshPage();
 		}
+		return isLogOut;
 	},
 
 	// Check cookie/session & take given action
