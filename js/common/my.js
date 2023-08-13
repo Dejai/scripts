@@ -247,10 +247,13 @@ const MyDom = {
 				// Loop through the keys passed in, and set those if the element has that as a property
 				contentKeys.forEach( (key)=>{
 					let existingProperty = ele[key];
-					if(existingProperty != undefined)
-					{
+					if(existingProperty != undefined) {
 						let newValue = contentObj[key] 
 						ele[key] = (append) ? existingProperty + newValue : newValue;
+					}
+					// If it is a data attribute, just set it
+					if(key.startsWith("data-")){
+						ele.setAttribute(key, contentObj[key]);
 					}
 				});
 			});
