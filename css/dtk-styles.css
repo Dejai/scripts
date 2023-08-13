@@ -57,7 +57,7 @@
 	.dtk-href-no-textdec { text-decoration:none !important; }
 
 /* iFrames */
-	.dtk-frame-login { width: 100%; border: none; height:100%; }
+	.dtk-frame { width: 100%; border: none; height:100%; }
 
 /* Paragraphs */
 	.dtk-paragraph-medium { font-size:80%; }
