@@ -1,6 +1,7 @@
 /*********************************************************************************
-	TrelloWrapper: Custom API wrapper for Trello
-				Dependent on the "common.js" file being loaded as well
+TrelloWrapper: Custom API wrapper for Trello
+NOTES:
+	- This is dependent on the "my.js" file being loaded prior to this one
 **********************************************************************************/ 
 
 class TrelloWrapper {
@@ -9,6 +10,7 @@ class TrelloWrapper {
         this.BoardName = boardName
         this.Endpoint = "https://trello.the-dancinglion.workers.dev"
     }
+
     // Get the full API call path for a given command (with optional params)
     #GetFullTrelloPath(command, params="") {
         params = (params != "") ? "?" + params : "";
@@ -20,13 +22,25 @@ class TrelloWrapper {
         return { status: code, responseText: JSON.stringify(text) }
     }
 
+	#GetSessionHeader(header={})
+	{
+		var cookieName = MyCookies.getCookieName("Session");
+		var cookieValue = MyCookies.getCookie(cookieName) ?? "";
+		if(cookieValue != ""){
+			header[cookieName] = cookieValue;
+		}
+		return header;
+	}
+
 	// Generic method to make all GET calls
 	#Get(url, successCallback, failureCallback){
+		var fetchObj = this.#GetSessionHeader();
 		MyFetch.call("GET", url).then(successCallback).catch(failureCallback);
 	}
 
 	// Generic method to make all POST calls
 	#Post(url, fetchObj, successCallback, failureCallback){
+		fetchObj = this.#GetSessionHeader(fetchObj);
 		MyFetch.call("POST", url, fetchObj).then(successCallback).catch(failureCallback);
 	}
 
