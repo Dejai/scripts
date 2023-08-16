@@ -22,12 +22,12 @@ class TrelloWrapper {
         return { status: code, responseText: JSON.stringify(text) }
     }
 
-	#GetSessionHeader(header={})
+	#GetSessionHeader(fetchObj={})
 	{
 		var cookieName = MyCookies.getCookieName("Session");
 		var cookieValue = MyCookies.getCookie(cookieName) ?? "";
 		if(cookieValue != ""){
-			header[cookieName] = cookieValue;
+			fetchObj["headers"][cookieName] = cookieValue;
 		}
 		return header;
 	}
@@ -35,7 +35,7 @@ class TrelloWrapper {
 	// Generic method to make all GET calls
 	#Get(url, successCallback, failureCallback){
 		var fetchObj = this.#GetSessionHeader();
-		MyFetch.call("GET", url).then(successCallback).catch(failureCallback);
+		MyFetch.call("GET", url, fetchObj).then(successCallback).catch(failureCallback);
 	}
 
 	// Generic method to make all POST calls
