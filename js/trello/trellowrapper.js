@@ -27,6 +27,9 @@ class TrelloWrapper {
 		var cookieName = MyCookies.getCookieName("Session");
 		var cookieValue = MyCookies.getCookie(cookieName) ?? "";
 		if(cookieValue != ""){
+			if(!fetchObj.hasOwnProperty("headers")){
+				fetchObj["headers"] = {};
+			}
 			fetchObj["headers"][cookieName] = cookieValue;
 		}
 		return header;
