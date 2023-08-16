@@ -32,7 +32,7 @@ class TrelloWrapper {
 			}
 			fetchObj["headers"][cookieName] = cookieValue;
 		}
-		return header;
+		return fetchObj;
 	}
 
 	// Generic method to make all GET calls
