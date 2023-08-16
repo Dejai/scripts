@@ -113,7 +113,7 @@ const MyAuth = {
 
 	// Check cookie/session & take given action
 	getSessionDetails: async(action) => {
-		var results = false;
+		var results = {};
 		var cookie = MyCookies.getCookie(MyCookies.getCookieName("Session"));
 		if(cookie != undefined){
 			var postCall = `${MyAuth.AuthUrl}/session/${action}`;
