@@ -22,28 +22,30 @@ class TrelloWrapper {
         return { status: code, responseText: JSON.stringify(text) }
     }
 
-	#GetSessionHeader(fetchObj={})
+	#GetSession()
 	{
 		var cookieName = MyCookies.getCookieName("Session");
 		var cookieValue = MyCookies.getCookie(cookieName) ?? "";
-		if(cookieValue != ""){
-			if(!fetchObj.hasOwnProperty("headers")){
-				fetchObj["headers"] = {};
-			}
-			fetchObj["headers"][cookieName] = cookieValue;
-		}
-		return fetchObj;
+		return {"sessionName":cookieName, "sessionValue": cookieValue};
 	}
 
 	// Generic method to make all GET calls
 	#Get(url, successCallback, failureCallback){
-		var fetchObj = this.#GetSessionHeader();
-		MyFetch.call("GET", url, fetchObj).then(successCallback).catch(failureCallback);
+		var { sessionName, sessionValue } = this.#GetSession();
+		MyFetch.call("GET", url, 
+			{ 
+				headers: { sessionName : sessionValue  }
+			})
+			.then(successCallback).catch(failureCallback);
 	}
 
 	// Generic method to make all POST calls
 	#Post(url, fetchObj, successCallback, failureCallback){
-		fetchObj = this.#GetSessionHeader(fetchObj);
+		var { sessionName, sessionValue } = this.#GetSession();
+		if(!fetchObj.hasOwnProperty("headers")) {
+			fetchObj["headers"] = {};
+		}
+		fetchObj["headers"][sessionName] = sessionValue;
 		MyFetch.call("POST", url, fetchObj).then(successCallback).catch(failureCallback);
 	}
 
