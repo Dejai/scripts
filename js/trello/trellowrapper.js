@@ -32,9 +32,11 @@ class TrelloWrapper {
 	// Generic method to make all GET calls
 	#Get(url, successCallback, failureCallback){
 		var { sessionName, sessionValue } = this.#GetSession();
+		var sessionHeader = {}
+		sessionHeader[sessionName] = sessionValue;
 		MyFetch.call("GET", url, 
 			{ 
-				headers: { sessionName : sessionValue  }
+				headers: sessionHeader
 			})
 			.then(successCallback).catch(failureCallback);
 	}
