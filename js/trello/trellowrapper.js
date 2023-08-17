@@ -22,37 +22,34 @@ class TrelloWrapper {
         return { status: code, responseText: JSON.stringify(text) }
     }
 
-	#GetSession()
+	// Get the session header to send with the calls
+	#GetSessionHeader(existingHeader)
 	{
+		var sessionHeader = new Headers();
+		if(existingHeader != undefined){
+			sessionHeader = existingHeader
+		}
 		var cookieName = MyCookies.getCookieName("Session");
 		var cookieValue = MyCookies.getCookie(cookieName) ?? "";
-		return {"sessionName":cookieName, "sessionValue": cookieValue};
+		if(cookieValue != ""){
+			sessionHeader.append(cookieName, cookieValue);
+		}
+		return sessionHeader;
 	}
 
 	// Generic method to make all GET calls
 	#Get(url, successCallback, failureCallback){
-		var { sessionName, sessionValue } = this.#GetSession();
-		var sessionHeaders = new Headers();
-		sessionHeaders.append(sessionName, sessionValue);
-		MyFetch.call("GET", url, { headers: sessionHeaders} )
+		MyFetch.call("GET", url, { headers: this.#GetSessionHeader() } )
 			.then(successCallback).catch(failureCallback);
 	}
 
 	// Generic method to make all POST calls
 	#Post(url, fetchObj, successCallback, failureCallback){
-		var { sessionName, sessionValue } = this.#GetSession();
-		if(!fetchObj.hasOwnProperty("headers")) {
-			fetchObj["headers"] = new Headers();
-		}
-		fetchObj["headers"]?.append(sessionName,sessionValue);
+		fetchObj["headers"] = this.#GetSessionHeader(fetchObj["headers"]);
 		MyFetch.call("POST", url, fetchObj).then(successCallback).catch(failureCallback);
 	}
 
 /*** GET Calls ***/
-
-	GET(url, successCallback, failureCallback){
-
-	}
 
     // Get list of boards;
 	GetBoards(successCallback, failureCallback){
@@ -60,24 +57,44 @@ class TrelloWrapper {
 		this.#Get(trello_path, successCallback, failureCallback);
 	}
 
-	// Get Custom Fields;
-	GetCustomFields(successCallback, failureCallback){
-		let trello_path = this.#GetFullTrelloPath("get_custom_fields");
-		this.#Get(trello_path, successCallback, failureCallback);
-	}
-
-	// Get a custom field specifically by name
-	GetCustomFieldsByName(customFieldName, successCallback, failureCallback){
-		this.GetCustomFields( (customFieldData)=>{
-			let singleField = customFieldData.filter( val => val.name == customFieldName);
-			var _return = (singleField != undefined ) ? successCallback(singleField) : failureCallback(singleField);
-		}, failureCallback)
-	}
-
     // Get a single card (by ID)
     GetCard(cardID, successCallback, failureCallback){
 		let trello_path = this.#GetFullTrelloPath("get_single_card", `cardID=${cardID}&checklists=all&attachments=true&customFieldItems=true`);
 		this.#Get(trello_path, successCallback, failureCallback);
+	}
+
+	// Gets a single trello card's actions
+	GetCardAttachment(cardID, attachmentID, fileName, successCallback, failureCallback){
+		let trello_path = this.#GetFullTrelloPath("get_card_attachment", `cardID=${cardID}&attachmentID=${attachmentID}&fileNameID=${fileName}`);
+		this.#Get(trello_path, successCallback, failureCallback);
+	}
+
+	// Get the custom fields on a card
+	GetCardCustomFields(cardID, successCallback, failureCallback){
+		let trello_path = this.#GetFullTrelloPath("get_card_custom_fields", `cardID=${cardID}`);
+		this.#Get(trello_path, successCallback,failureCallback);
+	}
+
+	// Get a custom field on a card by its name
+	GetCardCustomFieldByName(cardID, customFieldName, successCallback, failureCallback){
+		this.GetCustomFields( (data) => {
+			let customFieldsResp = JSON.parse(data.responseText);
+			let customField = customFieldsResp.filter( x => x.name == customFieldName);
+			if(customField != undefined)
+			{
+				this.GetCardCustomFields(cardID, (data2) => {
+					let cardFieldsResp = JSON.parse(data2.responseText);
+					var result = cardFieldsResp.filter( val => val.idCustomField == customField.id );
+					var modResp = this.#GetModifiedReponse(data2.status, result);
+					var _return = (modResp?.status == 200) ? successCallback(modResp) : failureCallback(modResp);
+				}, failureCallback);
+			}
+			else
+			{
+				var modResp = this.#GetModifiedReponse(400);
+				successCallback(modResp);
+			}
+		}, failureCallback);
 	}
 
 	// Get a list of Trello Cards
@@ -100,50 +117,30 @@ class TrelloWrapper {
 		});
 	}
 
+	// Get the details of a checklist
+	GetChecklist(checklistID, successCallback, failureCallback){
+		let trello_path = this.#GetFullTrelloPath("get_checklist", `checklistID=${checklistID}`);
+		this.#Get(trello_path, successCallback, failureCallback);
+	}
+
 	// Get the comments; Via call = get_actions
 	GetComments(cardID, successCallback, failureCallback){
 		let trello_path = this.#GetFullTrelloPath("get_actions", `cardID=${cardID}&filter=commentCard`);
 		this.#Get(trello_path, successCallback, failureCallback);
 	}
 
-	// Gets a single trello card's actions
-	GetCardAttachment(cardID, attachmentID, fileName, successCallback, failureCallback){
-		let trello_path = this.#GetFullTrelloPath("get_card_attachment", `cardID=${cardID}&attachmentID=${attachmentID}&fileNameID=${fileName}`);
+	// Get Custom Fields;
+	GetCustomFields(successCallback, failureCallback){
+		let trello_path = this.#GetFullTrelloPath("get_custom_fields");
 		this.#Get(trello_path, successCallback, failureCallback);
 	}
 
-	// Get the checklist items from a card's checklist
-	GetCardChecklistItems(checklistID, successCallback, failureCallback){
-		let trello_path = this.#GetFullTrelloPath("get_card_checklist_items", `checklistID=${checklistID}`);
-		this.#Get(trello_path, successCallback, failureCallback);
-	}
-
-	// Get the custom fields on a card
-	GetCardCustomFields(cardID, successCallback, failureCallback){
-		let trello_path = this.#GetFullTrelloPath("get_card_custom_fields", `cardID=${cardID}`);
-		this.#Get(trello_path, successCallback,failureCallback);
-	}
-
-	// Get a custom field on a card by its name
-	GetCardCustomFieldByName(cardID, customFieldName, successCallback, failureCallback){
-		this.GetCustomFields( (data) => {
-			let customFieldsResp = JSON.parse(data.responseText);
-            let customField = customFieldsResp.filter( x => x.name == customFieldName);
-			if(customField != undefined)
-			{
-				this.GetCardCustomFields(cardID, (data2) => {
-					let cardFieldsResp = JSON.parse(data2.responseText);
-					var result = cardFieldsResp.filter( val => val.idCustomField == customField.id );
-                    var modResp = this.#GetModifiedReponse(data2.status, result);
-					var _return = (modResp?.status == 200) ? successCallback(modResp) : failureCallback(modResp);
-				}, failureCallback);
-			}
-			else
-			{
-                var modResp = this.#GetModifiedReponse(400);
-				successCallback(modResp);
-			}
-		}, failureCallback);
+	// Get a custom field specifically by name
+	GetCustomFieldsByName(customFieldName, successCallback, failureCallback){
+		this.GetCustomFields( (customFieldData)=>{
+			let singleField = customFieldData.filter( val => val.name == customFieldName);
+			var _return = (singleField != undefined ) ? successCallback(singleField) : failureCallback(singleField);
+		}, failureCallback)
 	}
 
 	// Get Labels
@@ -174,12 +171,6 @@ class TrelloWrapper {
 
 
 /*** CREATE Calls ***/
-
-	// Create a new list
-	CreateList(listName, successCallback, failureCallback) {
-		let trello_path = this.#GetFullTrelloPath("create_list", `name=${listName}`);
-		this.#Post(trello_path, {}, successCallback, failureCallback);
-	}
 
 	// Creates a new Trello Card
 	CreateCard(listID, cardName, successCallback, failureCallback) {
@@ -219,6 +210,11 @@ class TrelloWrapper {
 		this.#Post(trello_path, {}, successCallback, failureCallback);
 	}
 
+	// Create a new list
+	CreateList(listName, successCallback, failureCallback) {
+		let trello_path = this.#GetFullTrelloPath("create_list", `name=${listName}`);
+		this.#Post(trello_path, {}, successCallback, failureCallback);
+	}
 
 /*** UPDATE Calls ***/
 
@@ -242,12 +238,6 @@ class TrelloWrapper {
 		this.#Post(trello_path, {body: encoded}, successCallback, failureCallback);
 	}
 
-	// Update the name of a card
-	UpdateCardName(cardID, newCardName, successCallback, failureCallback) {
-		let trello_path = this.#GetFullTrelloPath("update_card", `cardID=${cardID}&name=${newCardName}`);
-		this.#Post(trello_path, {}, successCallback, failureCallback);
-	}
-
 	// Add a label on a card
 	UpdateCardLabel(cardID, labelID, successCallback, failureCallback) {
 		let trello_path = this.#GetFullTrelloPath("update_card_label", `cardID=${cardID}&value=${labelID}`);
@@ -258,6 +248,12 @@ class TrelloWrapper {
 	UpdateCardList(cardID, newListID, successCallback, failureCallback) {
 		let trello_path = this.#GetFullTrelloPath("update_card", `cardID=${cardID}&idList=${newListID}&pos=top`)
 		this.#Post(trello_path, "", {}, successCallback, failureCallback);
+	}
+
+	// Update the name of a card
+	UpdateCardName(cardID, newCardName, successCallback, failureCallback) {
+		let trello_path = this.#GetFullTrelloPath("update_card", `cardID=${cardID}&name=${newCardName}`);
+		this.#Post(trello_path, {}, successCallback, failureCallback);
 	}
 
 	// Update the state of a checklist item (complete or incomplete)
