@@ -729,8 +729,7 @@ const MyUrls = {
 		let query = query_string.replace("?", "")
 		var query_map = {}
 		var combos = query.split("&");
-		combos.forEach(function(obj)
-		{
+		combos.forEach( (obj) => {
 			let splits = obj.split("=");
 			query_map[splits[0]] = splits[1];
 		});
@@ -754,38 +753,15 @@ const MyUrls = {
 		}
 	},
 
-	// Get the appropraite search path for modifying window history (accounts for existing)
-	createSearchString(newQueryMap)
-	{
-
-		// Get original query map/keys
-		let queryMap = MyUrls.getSearchParam();
-		let queryKeys = Object.keys(queryMap);
-
-		// Get the set of new keys
-		let newKeys = Object.keys(newQueryMap);
-
-		// Get the unique ones
-		let uniqueKeys = Array.from(new Set(queryKeys.concat(newKeys)));
-
-		// Build a search based on old+new;
-		let search = "";
-		if(uniqueKeys.length > 0)
-		{
-			uniqueKeys.forEach( (key)=>{
-
-				// Separator for the values
-				let sep = (search == "") ? "?" : "&";
-
-				let ogValue = queryMap[key] ?? "";
-				let newValue = newQueryMap[key] ?? "";
-
-				let value = (newValue != "") ? newValue : ogValue;
-
-				search += `${sep}${key}=${value}`;
-			});
+	// Given a list of KeyValue pairs, return a new search string
+	getNewSearchString(listOfKVPairs=[]){
+		var newSearch = "";
+		if(listOfKVPairs.length == 0){
+			return newSearch;
 		}
-		return search;
+		newSearch += "?";
+		newSearch += listOfKVPairs.join("&");
+		return newSearch;
 	},
 
 	// Simple thing to reload the current page; with delay in seconds
