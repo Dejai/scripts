@@ -764,11 +764,9 @@ const MyUrls = {
 		}
 		// Loop through and set new search
 		newKeys.forEach( (key) => {
-			if(newSearch == "") {
-				newSearch += "?";
-			}
+			let separator = (newSearch == "") ? "?" : "&"
 			let val = newValues[key];
-			newSearch += `${key}=${val}`;
+			newSearch += `${separator}${key}=${val}`;
 		});
 		return newSearch;
 	},
