@@ -753,14 +753,23 @@ const MyUrls = {
 		}
 	},
 
-	// Given a list of KeyValue pairs, return a new search string
-	getNewSearchString(listOfKVPairs=[]){
+	// Given a set of KeyValue pairs, return a new search string
+	getNewSearchString(newValues={}){
 		var newSearch = "";
-		if(listOfKVPairs.length == 0){
+		var newKeys = Object.keys(newValues);
+
+		// If no new values, return empty string.
+		if(newKeys.length == 0){
 			return newSearch;
 		}
-		newSearch += "?";
-		newSearch += listOfKVPairs.join("&");
+		// Loop through and set new search
+		newKeys.forEach( (key) => {
+			if(newSearch == "") {
+				newSearch += "?";
+			}
+			let val = newValues[key];
+			newSearch += `${key}=${val}`;
+		});
 		return newSearch;
 	},
 
