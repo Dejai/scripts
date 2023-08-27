@@ -771,6 +771,24 @@ const MyUrls = {
 		return newSearch;
 	},
 
+	// Modify the existing search string
+	getModifiedSearchString(keyValuePairs={}) {
+		var searchMap = MyUrls.getSearchValues();
+
+		// Adjust the key value pairs that are already in the search (if necessary)
+		Object.keys(keyValuePairs).forEach( (key) => {
+			let val = keyValuePairs[key];
+			if(val == "" && searchMap.hasOwnProperty(key)){
+				delete searchMap[key];
+			} else if(val != "") {
+				searchMap[key] = val;
+			}
+		});
+
+		var newSearch = MyUrls.getNewSearchString(searchMap);
+		return newSearch;
+	},
+
 	// Simple thing to reload the current page; with delay in seconds
 	refreshPage: (delay=0)=>{
 		var wait = delay * 1000;
