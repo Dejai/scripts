@@ -534,8 +534,8 @@ const MyLogger = {
 		});
 	},
 
-	// Add a message to the page
-	ShowMessage: (selector, message, append=false) => {
+	// Add a message to the page to notify user of something
+	Notify: (selector, message, append=false) => {
 		MyDom.setContent(selector, {"innerHTML": message}, append);
 	}
 
