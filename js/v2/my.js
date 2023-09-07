@@ -527,11 +527,18 @@ const MyLogger = {
 		MyLogger._LogMessage(message, "Error", silent);
 	},
 
-	ShowLogs: () => {
-		MyMyLogger.LoggedMessages?.forEach( (msg) =>{
+	// Print all the logs
+	PrintLogs: () => {
+		MyLogger.LoggedMessages?.forEach( (msg) =>{
 			console.log(msg);
 		});
+	},
+
+	// Add a message to the page
+	ShowMessage: (selector, message, append=false) => {
+		MyDom.setContent(selector, {"innerHTML": message}, append);
 	}
+
 }
 
 // Custom class used to easily identify my log messages

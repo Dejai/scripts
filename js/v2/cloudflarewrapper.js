@@ -55,10 +55,16 @@ class StreamManager
     // Pause the video
     onPauseVideo(callback){
         this.stream?.pause();
+        if(callback != undefined){
+            callback();
+        }
     }
 
     // Play the video
-    onPlayVideo(){
+    onPlayVideo(callback){
         this.stream?.play();
+        if(callback != undefined){
+            callback();
+        }
     }
 }
