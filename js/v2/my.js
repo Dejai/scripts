@@ -296,6 +296,11 @@ const MyDom = {
 	removeClass: function(selector, className){
 		MyDom._toggleClass(selector, "remove", className);
 	},
+
+	replaceClass: (selector, oldClass, newClass) => {
+		MyDom.addClass(selector, newClass);
+		MyDom.removeClass(selector, oldClass);
+	},
 	
 	// A public warapper for the helper function within
 	toggleClass: function(selector, action, className){
