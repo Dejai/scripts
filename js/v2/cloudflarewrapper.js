@@ -42,18 +42,13 @@ class StreamManager
         }
     }
 
-    // What to do on video ending
-    onVideoEnded(callback){
-        this.stream?.addEventListener("ended", callback);
-    }
-
-    // What do if the video errors
-    onVideoError(callback){
-        this.stream?.addEventListener("error", callback);
+    // Add event listener for sream video
+    onVideoEvent(event, callback) {
+        this.stream?.addEventListener(event, callback);
     }
 
     // Pause the video
-    onPauseVideo(callback){
+    pauseVideo(callback) {
         this.stream?.pause();
         if(callback != undefined){
             callback();
@@ -61,7 +56,7 @@ class StreamManager
     }
 
     // Play the video
-    onPlayVideo(callback){
+    playVideo(callback){
         this.stream?.play();
         if(callback != undefined){
             callback();
