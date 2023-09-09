@@ -5,6 +5,8 @@ CloudflareWrapper: Custom API wrapper for Cloudflare
 StreamManager (class): A manager for the stream object
     > Dependent on Stream SDK being loaded (
         - https://embed.videodelivery.net/embed/sdk.latest.js
+    > Stream API Documentation:
+        https://developers.cloudflare.com/stream/viewing-videos/using-the-stream-player/using-the-player-api/
 **********************************************************************************/ 
 
 // Wrapper for calls to the Cloudflare worker

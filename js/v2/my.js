@@ -44,21 +44,21 @@ const MyAuth = {
 		var userName = sessionDetails?.user ?? "";
 
 		// The key values to set
-		var loginText = attributes?.Login?.Text ?? "LOG IN";
+		var loginContent = attributes?.Login?.Content ?? "LOG IN";
 		var loginHref = attributes?.Login?.Href ?? "/auth/login.html";
 
-		var logoutText = attributes?.Logout?.Text ?? "LOG OUT";
+		var logoutContent = attributes?.Logout?.Content ?? "LOG OUT";
 		var logoutHref = attributes?.Logout?.Href ?? "/auth/logout.html";
 
 		// The key attributes to set
 		var href = (isLoggedIn) ? logoutHref : loginHref;
-		var text = (isLoggedIn) ? logoutText : loginText;
+		var content = (isLoggedIn) ? logoutContent : loginContent;
 
         // Set the login/logout links
 		var className = attributes?.ClassName ?? "authLink";
         MyDom.setContent(`.${className}`, {
 											"href": href, 
-											"innerText":text,
+											"innerHTML":content,
 											"data-dtk-user": userName
 											});
 	},
@@ -298,6 +298,7 @@ const MyDom = {
 	},
 
 	replaceClass: (selector, oldClass, newClass) => {
+		
 		MyDom.addClass(selector, newClass);
 		MyDom.removeClass(selector, oldClass);
 	},
