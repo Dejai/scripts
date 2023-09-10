@@ -738,15 +738,21 @@ const MyUrls = {
 	},
 
 	getSearchValues: function(searchString = undefined){
-		let query_string = (searchString != undefined) ? searchString : location.search;
-		let query = query_string.replace("?", "")
-		var query_map = {}
-		var combos = query.split("&");
-		combos.forEach( (obj) => {
+		var queryMap = {};
+		// Get the query string
+		var queryString = searchString ?? location.search;
+		queryString = queryString.replace("?", "");
+		// If empty, just return empty query map
+		if(queryString == ""){
+			return queryMap;
+		}
+		// Map all the pairs
+		var pairs = queryString.split("&");
+		pairs.forEach( (obj) => {
 			let splits = obj.split("=");
-			query_map[splits[0]] = splits[1];
+			queryMap[splits[0]] = splits[1];
 		});
-		return query_map;
+		return queryMap;
 	},
 
 	// Modify the URL search
@@ -793,8 +799,13 @@ const MyUrls = {
 
 	// Modify the existing search string
 	getModifiedSearchString(keyValuePairs={}) {
-		var searchMap = MyUrls.getSearchValues();
 
+		// If no key pairs, return empty string;
+		if(Object.keys(keyValuePairs).length == 0){
+			return "";
+		}
+
+		var searchMap = MyUrls.getSearchValues();
 		// Adjust the key value pairs that are already in the search (if necessary)
 		Object.keys(keyValuePairs).forEach( (key) => {
 			let val = keyValuePairs[key];
@@ -804,7 +815,6 @@ const MyUrls = {
 				searchMap[key] = val;
 			}
 		});
-
 		var newSearch = MyUrls.getNewSearchString(searchMap);
 		return newSearch;
 	},
