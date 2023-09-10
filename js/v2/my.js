@@ -749,6 +749,13 @@ const MyUrls = {
 		return query_map;
 	},
 
+	// Modify the URL search
+	modifySearch(keyValuePairs, replaceWindowHistory=fales) {
+		var newSearch = MyUrls.getModifiedSearchString(keyValuePairs);
+		let newPath = location.pathname + newSearch;
+		MyUrls.addWindowHistory({"path":newPath}, true);
+	},
+
 	// Add history to window history (with option to replace or not)
 	addWindowHistory(jsonObj, replace=false)
 	{
