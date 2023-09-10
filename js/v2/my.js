@@ -750,7 +750,7 @@ const MyUrls = {
 	},
 
 	// Modify the URL search
-	modifySearch(keyValuePairs, replaceWindowHistory=fales) {
+	modifySearch(keyValuePairs, replaceWindowHistory=false) {
 		var newSearch = MyUrls.getModifiedSearchString(keyValuePairs);
 		let newPath = location.pathname + newSearch;
 		MyUrls.addWindowHistory({"path":newPath}, true);
