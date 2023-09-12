@@ -1,7 +1,10 @@
 /*********************************************************************************
-TrelloWrapper: Custom API wrapper for Trello
-NOTES:
-	- This is dependent on the "my.js" file being loaded prior to this one
+Name: TrelloWrapper (formerly "MyTrello")
+Author: Derrick Fyfield
+Version: 2
+Description: Custom API wrapper for Trello; In this version, the wrapper is made into a class; 
+Dependencies:
+	- /scripts/js/v2/my.js
 **********************************************************************************/ 
 
 class TrelloWrapper {

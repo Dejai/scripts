@@ -1,8 +1,7 @@
 /*********************************************************************************
-Name: CloudflareWrapper: 
-Description: Custom API wrapper for Cloudflare
+CloudflareWrapper: Custom API wrapper for Cloudflare
 Author: Derrick Fyfield
-Version: v2
+Version: v1
 Dependencies:
     - /scripts/js/v2/my.js
     - https://embed.videodelivery.net/embed/sdk.latest.js
