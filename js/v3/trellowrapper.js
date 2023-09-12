@@ -154,7 +154,7 @@ class TrelloWrapper {
 	}
 
 	// Get a set of Trello Lists
-	GetLists(listState){
+	GetLists(listState="any"){
 		this.Method = "GET";
 		this.Command = "get_lists";
 		var state = (listState.startsWith("close")) ? "closed" : (listState.startsWith("open")) ? "open" : undefined;
@@ -165,7 +165,7 @@ class TrelloWrapper {
 
 	// Get a specific list based on name
 	async GetListByName(listName){
-		var lists = await this.GetLists("any");
+		var lists = await this.GetLists();
 		var singleList = lists?.filter(x => (x?.name ?? "") == listName)?.[0];
 		return singleList;
 	}
