@@ -21,7 +21,6 @@ class TrelloWrapper {
 
 		// Setup new headers object for Fetch calls;
 		this.Headers = new Headers();
-
     }
 
     // Get the full API call path for a given command (with optional params)
@@ -31,7 +30,7 @@ class TrelloWrapper {
     }
 
 	// Add the session cookie to the header (if found)
-	#AddSessionHeader(existingHeader)
+	#AddSessionHeader()
 	{
 		var cookieName = MyCookies.getCookieName("Session");
 		var cookieValue = MyCookies.getCookie(cookieName) ?? "";
