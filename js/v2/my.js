@@ -1,6 +1,10 @@
 /**********************************************************************************************************
+Name: My
+Description: A set of constant JS objects that I can reference on other pages easily. Formerly "common.js"
 Author: Derrick Fyfield
-Purpose: A set of constant JS objects that I can reference on other pages easily. :)
+Version: 2
+Dependencies:
+	n/a
 **********************************************************************************************************/
 
 // Auth manager;
