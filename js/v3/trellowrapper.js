@@ -154,7 +154,7 @@ class TrelloWrapper {
 	// Get a specific list based on name
 	async GetListByName(listName){
 		var lists = await this.GetLists("any");
-		var singleList = lists?.filter(x => (x?.name ?? "") == listName);
+		var singleList = lists?.filter(x => (x?.name ?? "") == listName)?.[0] ?? [];
 		return singleList;
 	}
 
