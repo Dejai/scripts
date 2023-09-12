@@ -57,12 +57,15 @@ class TrelloWrapper {
 
     // Get list of boards;
 	GetBoards(){
+		this.Method = "GET";
 		this.Command = "get_boards";
+		this.Params = "";
 		return this.#TrelloCall();
 	}
 
     // Get a single card (by ID)
     GetCard(cardID){
+		this.Method = "GET";
 		this.Command = "get_single_card";
 		this.Params = `cardID=${cardID}&checklists=all&attachments=true&customFieldItems=true`;
 		return this.#TrelloCall();
@@ -70,6 +73,7 @@ class TrelloWrapper {
 
 	// Gets a single trello card's actions
 	GetCardAttachment(cardID, attachmentID, fileName){
+		this.Method = "GET";
 		this.Command = "get_card_attachment";
 		this.Params = `cardID=${cardID}&attachmentID=${attachmentID}&fileNameID=${fileName}`;
 		return this.#TrelloCall();
@@ -77,6 +81,7 @@ class TrelloWrapper {
 
 	// Get the custom fields on a card
 	GetCardCustomFields(cardID){
+		this.Method = "GET";
 		this.Command = "get_card_custom_fields";
 		this.Params = `cardID=${cardID}`;
 		return this.#TrelloCall();
@@ -89,13 +94,14 @@ class TrelloWrapper {
 		var cardCustomField = undefined;
 		if(singleField != undefined){
 			var cardCustomFields = await this.GetCardCustomFields(cardID);
-			cardCustomField = cardCustomFields.filter(x => x.idCustomField == singleField.id);
+			cardCustomField = cardCustomFields.filter(x => x.idCustomField == singleField.id)?.[0];
 		}
 		return cardCustomField;
 	}
 
 	// Get a list of Trello Cards
 	GetCards(listID){
+		this.Method = "GET";
 		this.Command = "get_cards";
 		this.Params = `listID=${listID}`;
 		return this.#TrelloCall();
@@ -111,6 +117,7 @@ class TrelloWrapper {
 
 	// Get the details of a checklist
 	GetChecklist(checklistID){
+		this.Method = "GET";
 		this.Command = "get_checklist";
 		this.Params = `checklistID=${checklistID}`;
 		return this.#TrelloCall();
@@ -118,6 +125,7 @@ class TrelloWrapper {
 
 	// Get the comments; Via call = get_actions
 	GetComments(cardID){
+		this.Method = "GET";
 		this.Command = "get_actions";
 		this.Params = `cardID=${cardID}&filter=commentCard`;
 		return this.#TrelloCall();
@@ -125,7 +133,9 @@ class TrelloWrapper {
 
 	// Get Custom Fields;
 	GetCustomFields(){
+		this.Method = "GET";
 		this.Command = "get_custom_fields";
+		this.Params = "";
 		return this.#TrelloCall();
 	}
 
@@ -138,12 +148,15 @@ class TrelloWrapper {
 
 	// Get Labels
 	GetLabels(){
+		this.Method = "GET";
 		this.Command = "get_labels";
+		this.Params = "";
 		return this.#TrelloCall();
 	}
 
 	// Get a set of Trello Lists
 	GetLists(listState){
+		this.Method = "GET";
 		this.Command = "get_lists";
 		var state = (listState.startsWith("close")) ? "closed" : (listState.startsWith("open")) ? "open" : undefined;
 		var filter = (state != undefined) ? `filter=${state}` : "";
@@ -154,7 +167,7 @@ class TrelloWrapper {
 	// Get a specific list based on name
 	async GetListByName(listName){
 		var lists = await this.GetLists("any");
-		var singleList = lists?.filter(x => (x?.name ?? "") == listName)?.[0] ?? [];
+		var singleList = lists?.filter(x => (x?.name ?? "") == listName)?.[0];
 		return singleList;
 	}
 
@@ -165,6 +178,7 @@ class TrelloWrapper {
 	CreateCard(listID, cardName) {
 		this.Method = "POST";
 		this.Command = `name=${cardName}&idList=${listID}&pos=top`;
+		this.Params = "";
 		return this.#TrelloCall();
 	}
 
