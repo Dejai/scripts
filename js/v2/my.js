@@ -654,7 +654,7 @@ const MyTemplates = {
 		if(object != undefined){
 			var listOfObjects = (object.length == undefined) ? [object] : object;
 			listOfObjects.forEach( (obj)=> {
-				results += replacePlaceholders(template, placeholders, obj);
+				results += MyTemplates.replacePlaceholders(template, placeholders, obj);
 			});
 		}
 		return results;
