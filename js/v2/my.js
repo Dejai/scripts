@@ -265,7 +265,7 @@ const MyDom = {
 		} 
 		catch (err)
 		{
-			console.err(err);
+			MyLogger.LogError(err);
 		}
 	},
 
@@ -644,6 +644,22 @@ const MySpeaker = {
 // A way to load templates into documents
 const MyTemplates = {
 
+	// Get templates the async way
+	getTemplateAsync: async (filePath, object) => {
+
+		var results = "";
+		var template = await MyFetch.call("GET", filePath, {"responseType": "text"});
+		var placeholders = MyTemplates.getTemplatePlaceholders(template);
+
+		if(object != undefined){
+			var listOfObjects = (object.length == undefined) ? [object] : object;
+			listOfObjects.forEach( (obj)=> {
+				results += replacePlaceholders(template, placeholders, obj);
+			});
+		}
+		return results;
+	},
+
     // Main function to get a specific template (based on file path)
     getTemplate: async (filePath, object, callback) =>   {
 
@@ -721,7 +737,18 @@ const MyTemplates = {
             }
         }
         return value;
-    }
+    },
+
+	// Replace placeholders in a given template
+	replacePlaceholders: (template, placeholders, obj) => {
+		var content = template; 
+		placeholders.forEach( (placeholder)=>{
+			let keyVal = placeholder.replaceAll("{","").replaceAll("}","");
+			let newVal = MyTemplates.getObjectValue(keyVal,obj) ?? "";
+			content = content.replaceAll(placeholder, newVal);
+		});
+		return content;
+	}
 }
 
 // Used to manage things related to a URL
