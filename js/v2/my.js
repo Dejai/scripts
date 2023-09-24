@@ -725,15 +725,16 @@ const MyTemplates = {
     getObjectValue: (selector,object)=>{
         
 		var keys = selector.split(".");
-        value = object;
+        value = "";
         limit = 100; count = 0;
         while (keys.length > 0 && count < limit)
         {
             count++; //counter to prevent infinite loop;
             currKey = keys.shift();
-            if(value.hasOwnProperty(currKey))
+            if(object?.hasOwnProperty(currKey))
             {
-                value = value[currKey];
+                value = object[currKey];
+				break;
             }
         }
         return value;
