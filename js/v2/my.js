@@ -265,7 +265,7 @@ const MyDom = {
 		} 
 		catch (err)
 		{
-			console.err(err);
+			MyLogger.LogError(err);
 		}
 	},
 
