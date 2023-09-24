@@ -75,6 +75,7 @@ class TrelloWrapper {
 		this.Method = "GET";
 		this.Command = "get_card_attachment";
 		this.Params = `cardID=${cardID}&attachmentID=${attachmentID}&fileNameID=${fileName}`;
+		this.FetchObject["responseType"] = "text";
 		return this.#TrelloCall();
 	}
 
