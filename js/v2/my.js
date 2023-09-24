@@ -514,6 +514,36 @@ const MyHelper = {
 				break;
 		}
 		return dateFormatted
+	},
+
+	// Traverse down a JSON object to get a value (recursive)
+	getValueFromJson: (selector, parentObject) => {
+		
+		// Default response 
+		if(parentObject == undefined || selector.length == 0){ return ""; }
+		
+		// Set the key or index number to use
+		var keyOrIndex = (key) => {
+			let keyVal = key;
+			if( key.startsWith("[") && key.endsWith("]")){
+				let indexVal = key.replaceAll("[", "").replaceAll("]", "");
+				let indexNum = Number(indexVal);
+				// Only set index if it is a number;
+				if(!isNaN(indexNum)){ keyVal = indexNum; } 
+			}
+			return keyVal;
+		}
+
+		// Get the key(s) to search on
+		var keys = selector.split(".");
+		var key = keyOrIndex(keys.shift());
+
+		// Base Response 
+		if(keys.length == 0) { return parentObject[key] ?? ""; }
+
+		// The recursive checking:
+		var child = parentObject[key] ?? undefined;
+		return MyHelper.getValueFromJson(keys.join("."), child);
 	}
 }
 
@@ -726,6 +756,7 @@ const MyTemplates = {
         
 		var keys = selector.split(".");
         value = "";
+		var currentObject = object;
         limit = 100; count = 0;
         while (keys.length > 0 && count < limit)
         {
@@ -734,7 +765,6 @@ const MyTemplates = {
             if(object?.hasOwnProperty(currKey))
             {
                 value = object[currKey];
-				break;
             }
         }
         return value;
@@ -745,7 +775,7 @@ const MyTemplates = {
 		var content = template; 
 		placeholders.forEach( (placeholder)=>{
 			let keyVal = placeholder.replaceAll("{","").replaceAll("}","");
-			let newVal = MyTemplates.getObjectValue(keyVal,obj) ?? "";
+			let newVal = MyHelper.getValueFromJson(keyVal, obj);
 			content = content.replaceAll(placeholder, newVal);
 		});
 		return content;
