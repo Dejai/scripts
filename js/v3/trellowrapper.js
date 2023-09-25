@@ -182,19 +182,12 @@ class TrelloWrapper {
 	}
 
 	// Creates a new Trello Card
-	CreateCardAttachment(cardID, fileName, jsonObject) {
-		var jsonData = JSON.stringify(jsonObject);
-		const jsonFile = new File([jsonData], fileName, {
-			type: "application/json",
-		});
-		// Create form data
-		const formData = new FormData();
-		formData.append("file", jsonFile);
+	CreateCardAttachment(cardID, fileName, mimeType, fileObject) {
 		// Get path and send
 		this.Method = "POST";
 		this.Command = "create_card_attachment";
-		this.Params = `cardID=${cardID}&mimeType=application/json&name=${fileName}`;
-		this.#AddToFetchObj("body", formData);
+		this.Params = `cardID=${cardID}&mimeType=${mimeType}&name=${fileName}`;
+		this.#AddToFetchObj("body", fileObject);
 		return this.#TrelloCall();
 	}
 
