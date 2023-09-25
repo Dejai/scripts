@@ -516,34 +516,52 @@ const MyHelper = {
 		return dateFormatted
 	},
 
+	// Helper for the "getValueFromJson" function below
+	getKeyOrIndex: (value) => {
+		let keyVal = value;
+		if( value.startsWith("[") && value.endsWith("]")){
+			let indexVal = value.replaceAll("[", "").replaceAll("]", "");
+			let indexNum = Number(indexVal);
+			// Only set index if it is a number;
+			if(!isNaN(indexNum)){ keyVal = indexNum; } 
+		}
+		return keyVal;
+	},
+
 	// Traverse down a JSON object to get a value (recursive)
 	getValueFromJson: (selector, parentObject) => {
 		
 		// Default response 
-		if(parentObject == undefined || selector.length == 0){ return ""; }
-		
-		// Set the key or index number to use
-		var keyOrIndex = (key) => {
-			let keyVal = key;
-			if( key.startsWith("[") && key.endsWith("]")){
-				let indexVal = key.replaceAll("[", "").replaceAll("]", "");
-				let indexNum = Number(indexVal);
-				// Only set index if it is a number;
-				if(!isNaN(indexNum)){ keyVal = indexNum; } 
+		if(parentObject == undefined){ return undefined; }
+		if( (selector?.length ?? 0) == 0){ return parentObject; }
+
+		// Try to be recursive
+		try {
+			// Get the key(s) to search on
+			var keys = selector.split(".");
+			var key = MyHelper.getKeyOrIndex(keys.shift());
+
+			// The recursive checking .......................................................
+			var child = undefined;
+			
+			// If a parent is a list, then use colon syntax to filter; or default filter to the first one
+			if(key.includes(":")) {
+				var keyAttrSplit = key.split(":");
+				key = keyAttrSplit[0];
+				var col = keyAttrSplit[1] ?? "";
+				var filterVal = filterValues.shift();
+				child = parentObject[key]?.filter(x => x[col] == filterVal )?.[0] ?? undefined;
+			} else if(parentObject[key].filter != undefined) {
+				child = parentObject[key][0];
+			} else {
+				child = parentObject[key] ?? undefined;
 			}
-			return keyVal;
+			return MyHelper.getValueFromJson(child, keys.join("."), filterValues);
+
+		} catch (err) {
+			MyLogger.LogError(err);
+			return "ERROR";
 		}
-
-		// Get the key(s) to search on
-		var keys = selector.split(".");
-		var key = keyOrIndex(keys.shift());
-
-		// Base Response 
-		if(keys.length == 0) { return parentObject[key] ?? ""; }
-
-		// The recursive checking:
-		var child = parentObject[key] ?? undefined;
-		return MyHelper.getValueFromJson(keys.join("."), child);
 	}
 }
 
