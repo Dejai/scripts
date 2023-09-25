@@ -549,14 +549,14 @@ const MyHelper = {
 				var keyAttrSplit = key.split(":");
 				key = keyAttrSplit[0];
 				var col = keyAttrSplit[1] ?? "";
-				var filterVal = filterValues.shift();
+				var filterVal = filterValues?.shift();
 				child = parentObject[key]?.filter(x => x[col] == filterVal )?.[0] ?? undefined;
 			} else if(parentObject[key].filter != undefined) {
 				child = parentObject[key][0];
 			} else {
 				child = parentObject[key] ?? undefined;
 			}
-			return MyHelper.getValueFromJson(child, keys.join("."), filterValues);
+			return MyHelper.getValueFromJson(child, keys.join("."), (filterValues ?? []) );
 
 		} catch (err) {
 			MyLogger.LogError(err);
