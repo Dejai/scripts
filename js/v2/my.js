@@ -529,7 +529,7 @@ const MyHelper = {
 	},
 
 	// Traverse down a JSON object to get a value (recursive)
-	getValueFromJson: (selector, parentObject) => {
+	getValueFromJson: (parentObject, selector, filterValues=[]) => {
 		
 		// Default response 
 		if(parentObject == undefined){ return undefined; }
