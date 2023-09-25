@@ -793,7 +793,7 @@ const MyTemplates = {
 		var content = template; 
 		placeholders.forEach( (placeholder)=>{
 			let keyVal = placeholder.replaceAll("{","").replaceAll("}","");
-			let newVal = MyHelper.getValueFromJson(keyVal, obj);
+			let newVal = MyHelper.getValueFromJson(obj, keyVal);
 			content = content.replaceAll(placeholder, newVal);
 		});
 		return content;
