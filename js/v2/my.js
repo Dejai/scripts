@@ -40,31 +40,27 @@ const MyAuth = {
 		}
 	},
 
-	// Checking if user is already logged in (this is on a non-login page)
-	onGetLoginDetails: async (attributes={}) => {
+	// Handle user clicking action to either login or logout
+	onAuthAction: async(element) => {
+		var action = element.getAttribute("data-dtk-auth-action") ?? "0"; // (0=logout;1=login)
+		if(action == 1) {
+			await MyAuth.onLogin();
+		}
+	},
 
+	// Get login details about the current user
+	onGetLoginDetails: async () => {
 		var sessionDetails = await MyAuth.getSessionDetails("active");
 		var isLoggedIn =(sessionDetails?.active ?? false);
 		var userName = sessionDetails?.user ?? "";
-
-		// The key values to set
-		var loginContent = attributes?.Login?.Content ?? "LOG IN";
-		var loginHref = attributes?.Login?.Href ?? "/auth/login.html";
-
-		var logoutContent = attributes?.Logout?.Content ?? "LOG OUT";
-		var logoutHref = attributes?.Logout?.Href ?? "/auth/logout.html";
-
-		// The key attributes to set
-		var href = (isLoggedIn) ? logoutHref : loginHref;
-		var content = (isLoggedIn) ? logoutContent : loginContent;
-
-        // Set the login/logout links
-		var className = attributes?.ClassName ?? "authLink";
-        MyDom.setContent(`.${className}`, {
-											"href": href, 
-											"innerHTML":content,
-											"data-dtk-user": userName
-											});
+		var action = !(isLoggedIn) ? 1 : 0;
+		var actionText = (action == 1) ? "LOG IN" : "LOG OUT";
+		return {
+			"isLoggedIn": isLoggedIn,
+			"userName": userName,
+			"action": action,
+			"actionText": actionText
+		};
 	},
 
 	// Show the login frame
