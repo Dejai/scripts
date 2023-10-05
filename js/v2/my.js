@@ -40,14 +40,6 @@ const MyAuth = {
 		}
 	},
 
-	// Handle user clicking action to either login or logout
-	onAuthAction: async(element) => {
-		var action = element.getAttribute("data-dtk-auth-action") ?? "0"; // (0=logout;1=login)
-		if(action == 1) {
-			await MyAuth.onLogin();
-		}
-	},
-
 	// Get login details about the current user
 	onGetLoginDetails: async () => {
 		var sessionDetails = await MyAuth.getSessionDetails("active");
