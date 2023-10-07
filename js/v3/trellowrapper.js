@@ -312,6 +312,14 @@ class TrelloWrapper {
 		return this.#TrelloCall();
 	}
 
+	// Remove a comment from a card
+	DeleteCardComment(cardID, commentID){
+		this.Method = "POST";
+		this.Command = "delete_card_comment";
+		this.Params = `cardID=${cardID}&commentID=${commentID}`;
+		return this.#TrelloCall();
+	}
+
 	// Remove a card label
 	DeleteCardLabel(cardID, labelID){
 		this.Method = "POST";
