@@ -795,6 +795,31 @@ const MyUrls = {
 		window.open(url, target=targetTab);
 	},
 
+	// Get the code for the current path
+	getCodeFromPath: async () => {
+		var path = encodeURIComponent(location.pathname);
+		var requestUri = `https://paths.the-dancinglion.workers.dev/translate/?path=${path}`;
+
+		// Attempt without a code
+		var results1 = await  MyFetch.call("GET",requestUri);
+		var code = results1?.code ?? "";
+		// Attempt with a new code
+		if(code == ""){
+			var newCode = MyHelper.getCode(5);
+			var results2 = await MyFetch.call("GET", requestUri+`&code=${newCode}`);
+			code = results2?.code ?? "";
+		}
+		return code;
+	},
+
+	// Get path from a given code
+	getPathFromCode: async (code="") => {
+		var requestUri = `https://paths.the-dancinglion.workers.dev/translate/?code=${code}`;
+		var results = await MyFetch.call("GET", requestUri);
+		var path = results?.path ?? "";
+		return path;
+	},
+
 	getSearchParam: function(key){
 		let map = MyUrls.getSearchValues();
 		let value = undefined;
