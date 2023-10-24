@@ -816,8 +816,18 @@ const MyUrls = {
 	getPathFromCode: async (code="") => {
 		var requestUri = `https://paths.the-dancinglion.workers.dev/translate/?code=${code}`;
 		var results = await MyFetch.call("GET", requestUri);
-		var path = results?.path ?? "";
+		var path = results?.path ?? "/";
 		return path;
+	},
+
+	// Auto redirect from code
+	redirectFromCode: async () => {
+		var code = MyUrls.getSearchParam("code") ?? "";
+		var newPath = "/";
+		if(code != "") {
+			var newPath = await MyUrls.getPathFromCode(code);
+			MyUrls.redirectTo(newPath);
+		}
 	},
 
 	getSearchParam: function(key){
