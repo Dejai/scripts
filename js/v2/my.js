@@ -826,7 +826,7 @@ const MyUrls = {
 		var newPath = "/";
 		if(code != "") {
 			var newPath = await MyUrls.getPathFromCode(code);
-			MyUrls.redirectTo(newPath);
+			MyUrls.navigateTo(newPath);
 		}
 	},
 
