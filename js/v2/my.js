@@ -797,8 +797,9 @@ const MyUrls = {
 
 	// Get the code for the current path
 	getCodeFromPath: async () => {
-		var path = encodeURIComponent(location.pathname);
-		var requestUri = `https://paths.the-dancinglion.workers.dev/translate/?path=${path}`;
+		var fullPath = location.pathname + location.search;
+		var encodedPath = encodeURIComponent(fullPath);
+		var requestUri = `https://paths.the-dancinglion.workers.dev/translate/?path=${encodedPath}`;
 
 		// Attempt without a code
 		var results1 = await  MyFetch.call("GET",requestUri);
@@ -809,7 +810,7 @@ const MyUrls = {
 			var results2 = await MyFetch.call("GET", requestUri+`&code=${newCode}`);
 			code = results2?.code ?? "";
 		}
-		return code;
+		return location.origin+"?code="+code;
 	},
 
 	// Get path from a given code
