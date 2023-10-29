@@ -46,13 +46,13 @@ const MyAuth = {
 		var isLoggedIn =(sessionDetails?.active ?? false);
 		var userDetails = sessionDetails?.user ?? {};
 		var userName = (userDetails?.FirstName ?? "") + " " + (userDetails?.LastName ?? "");
-		var identifier = userDetails?.Identifier ?? "";
+		var userKey = userDetails?.Key ?? "";
 		var action = !(isLoggedIn) ? 1 : 0;
 		var actionText = (action == 1) ? "LOG IN" : "LOG OUT";
 		return {
 			"isLoggedIn": isLoggedIn,
 			"userName": userName,
-			"identifier": identifier,
+			"userKey": userKey,
 			"action": action,
 			"actionText": actionText
 		};
