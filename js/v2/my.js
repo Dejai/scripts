@@ -45,7 +45,7 @@ const MyAuth = {
 		var sessionDetails = await MyAuth.getSessionDetails("active");
 		var isLoggedIn =(sessionDetails?.active ?? false);
 		var userDetails = sessionDetails?.user ?? {};
-		var userName = userDetails?.UserName ?? "";
+		var userName = (userDetails?.FirstName ?? "") + " " + (userDetails?.LastName ?? "");
 		var identifier = userDetails?.Identifier ?? "";
 		var action = !(isLoggedIn) ? 1 : 0;
 		var actionText = (action == 1) ? "LOG IN" : "LOG OUT";
