@@ -1,5 +1,12 @@
 /* Common styles I've used across the different pages */
 
+/* Spinning elements */
+@keyframes dtk-spin-frame { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+.dtk-spinning { animation-name: dtk-spin-frame; animation-iteration-count: infinite; animation-timing-function: linear; }
+.dtk-spinning.fast { animation-duration: 1000ms; }
+.dtk-spinning.medium { animation-duration: 2000ms; }
+.dtk-spinning.slow { animation-duration: 3000ms; }
+
 /* General purpose */
     .hidden { display:none !important; }
 	.invisible { visibility: hidden;} 
