@@ -44,12 +44,15 @@ const MyAuth = {
 	onGetLoginDetails: async () => {
 		var sessionDetails = await MyAuth.getSessionDetails("active");
 		var isLoggedIn =(sessionDetails?.active ?? false);
-		var userName = sessionDetails?.user ?? "";
+		var userDetails = sessionDetails?.user ?? {};
+		var firstName = userDetails?.FirstName ?? "";
+		var identifier = userDetails?.Identifier ?? "";
 		var action = !(isLoggedIn) ? 1 : 0;
 		var actionText = (action == 1) ? "LOG IN" : "LOG OUT";
 		return {
 			"isLoggedIn": isLoggedIn,
-			"userName": userName,
+			"userName": firstName,
+			"identifier": identifier,
 			"action": action,
 			"actionText": actionText
 		};
