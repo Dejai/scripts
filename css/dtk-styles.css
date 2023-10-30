@@ -7,6 +7,8 @@
 /* Themes */
 .dtk-theme-cauldron { color:#D4D1CD !important; background-color:#0f0f0f !important; }
 .dtk-theme-cauldron-inverse { color: #0f0f0f !important; background-color: #D4D1CD !important; }
+.dtk-theme-cauldron-text { font-family: Inter-Regular, Palatino, Helvetica, sans-serif; }
+.dtk-theme-cauldron-heading { font-family: Koulen, Palatino, Helvetica, sans-serif; }
 .dtk-theme-blackbg { background-color:black !important; color:white; }
 
 /* Spinning elements */
