@@ -1,4 +1,9 @@
 /* Common styles I've used across the different pages */
+
+/* Fonts */
+@font-face { font-family: Koulen; src: url("https://dejai.github.io/scripts/fonts/koulen/Koulen-Regular.ttf"); }
+@font-face { font-family: Inter-Regular; src: url("https://dejai.github.io/scripts/fonts/inter/static/Inter-Regular.ttf"); }
+
 /* Themes */
 .dtk-theme-cauldron { color:#D4D1CD !important; background-color:#0f0f0f !important; }
 .dtk-theme-cauldron-inverse { color: #0f0f0f !important; background-color: #D4D1CD !important; }
