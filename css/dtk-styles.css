@@ -14,9 +14,11 @@
 /* Spinning elements */
 @keyframes dtk-spin-frame { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
 .dtk-spinning { animation-name: dtk-spin-frame; animation-iteration-count: infinite; animation-timing-function: linear; }
-.dtk-spinning.fast { animation-duration: 1000ms; }
-.dtk-spinning.medium { animation-duration: 2000ms; }
-.dtk-spinning.slow { animation-duration: 3000ms; }
+.dtk-spinning-1000 { animation-duration: 1000ms; }
+.dtk-spinning-1500 { animation-duration: 1500ms; }
+.dtk-spinning-2000 { animation-duration: 2000ms; }
+.dtk-spinning-2500 { animation-duration: 25000ms; }
+.dtk-spinning-3000 { animation-duration: 3000ms; }
 
 /* Position, Display, Visibility */
 .dtk-menu-sticky { position:sticky; top:0; z-index:100; opacity:100 } /* Make menu items sticky */
