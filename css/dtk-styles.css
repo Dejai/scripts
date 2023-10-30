@@ -16,10 +16,21 @@
 .dtk-spinning.medium { animation-duration: 2000ms; }
 .dtk-spinning.slow { animation-duration: 3000ms; }
 
-/* General purpose */
+/* Position, Display, Visibility */
+.dtk-menu-sticky { position:sticky; top:0; z-index:100; opacity:100 } /* Make menu items sticky */
+.dtk-full-body { margin:0% !important }
 .hidden { display:none !important; }
-.invisible { visibility: hidden;} 
+.invisible { visibility: hidden !important;} 
 .pointer { cursor:pointer; }
+.centered { text-align:center; }
+.lefted   { text-align:left; }
+.righted  { text-align:right; }
+
+/* Dimensions, Display, & Clicking */
+input, textarea, button, select, a { -webkit-tap-highlight-color: transparent; } /* No higlighting when clicking the items (especially on mobile devices*/
+.dtk-href-no-textdecoration { text-decoration:none !important; }
+.dtk-href-no-textdec { text-decoration:none !important; }
+.dtk-frame { width: 100%; border: none; height:100%; } /* Mostly for iFrame formatting */
 .noselect {
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none; /* Safari */
@@ -29,20 +40,6 @@
 	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
-/* Common Element styling */
-input, textarea, button, select, a { -webkit-tap-highlight-color: transparent; }
-/* Hyperlinks */	
-.dtk-href-no-textdecoration { text-decoration:none !important; }
-.dtk-href-no-textdec { text-decoration:none !important; }
-/* iFrames */
-.dtk-frame { width: 100%; border: none; height:100%; }
-/* Positions (e.g. Menus) */
-.dtk-menu-sticky { position:sticky; top:0; z-index:100; opacity:100 }
-
-/* Alignment (text-based) */
-.centered { text-align:center; }
-.lefted   { text-align:left; }
-.righted  { text-align:right; }
 
 /* Alignment (margin-based) */
 	.dtk-center-block-small { margin:auto; width:40%;}
@@ -103,9 +100,6 @@ input, textarea, button, select, a { -webkit-tap-highlight-color: transparent; }
 	.dtk-table-small { width:25%; }
 	.dtk-table-medium { width:50%; }
 	.dtk-table-large { width:100%; }
-
-/* Themes: */
-	/* Black Background */
 
     
 /**************************************************** 
