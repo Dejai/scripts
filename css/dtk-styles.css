@@ -1,8 +1,8 @@
 /* Common styles I've used across the different pages */
-
 /* Themes */
-.dtk-cauldron { color:#D4D1CD !important; background-color:#0f0f0f !important; }
-.dtk-cauldron-inverse { color: #0f0f0f !important; background-color: #D4D1CD; }
+.dtk-theme-cauldron { color:#D4D1CD !important; background-color:#0f0f0f !important; }
+.dtk-theme-cauldron-inverse { color: #0f0f0f !important; background-color: #D4D1CD !important; }
+.dtk-theme-blackbg { background-color:black !important; color:white; }
 
 /* Spinning elements */
 @keyframes dtk-spin-frame { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
@@ -11,27 +11,33 @@
 .dtk-spinning.medium { animation-duration: 2000ms; }
 .dtk-spinning.slow { animation-duration: 3000ms; }
 
-
 /* General purpose */
-    .hidden { display:none !important; }
-	.invisible { visibility: hidden;} 
-    .pointer { cursor:pointer; }
-    .noselect {
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-            -moz-user-select: none; /* Old versions of Firefox */
-            -ms-user-select: none; /* Internet Explorer/Edge */
-                user-select: none; /* Non-prefixed version, currently
-                                        supported by Chrome, Edge, Opera and Firefox */
-    }
-	/* No tap highlight for common elements */
-	input, textarea, button, select, a { -webkit-tap-highlight-color: transparent; }
+.hidden { display:none !important; }
+.invisible { visibility: hidden;} 
+.pointer { cursor:pointer; }
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+/* Common Element styling */
+input, textarea, button, select, a { -webkit-tap-highlight-color: transparent; }
+/* Hyperlinks */	
+.dtk-href-no-textdecoration { text-decoration:none !important; }
+.dtk-href-no-textdec { text-decoration:none !important; }
+/* iFrames */
+.dtk-frame { width: 100%; border: none; height:100%; }
+/* Positions (e.g. Menus) */
+.dtk-menu-sticky { position:sticky; top:0; z-index:100; opacity:100 }
 
 /* Alignment (text-based) */
-	.centered { text-align:center; }
-	.lefted   { text-align:left; }
-	.righted  { text-align:right; }
+.centered { text-align:center; }
+.lefted   { text-align:left; }
+.righted  { text-align:right; }
 
 /* Alignment (margin-based) */
 	.dtk-center-block-small { margin:auto; width:40%;}
@@ -65,16 +71,6 @@
 	.dtk-button-gold { background-color:goldenrod !important; color:black !important;}
 	.dtk-button-yellow { background-color:yellow !important; color:black !important;}
 	.dtk-button-gray { background-color:gray !important; color:lightgray !important;}
-	
-/* Hyperlinks */	
-	.dtk-href-no-textdecoration { text-decoration:none !important; }
-	.dtk-href-no-textdec { text-decoration:none !important; }
-
-/* iFrames */
-	.dtk-frame { width: 100%; border: none; height:100%; }
-
-/* Menus */
-	.dtk-menu-sticky { position:sticky; top:0; z-index:100; opacity:100 }
 
 /* Paragraphs */
 	.dtk-paragraph-medium { font-size:80%; }
@@ -88,13 +84,11 @@
 	.dtk-select { padding:3%; border:none; }
 	.dtk-select:focus { outline:none; }
 	.dtk-select-round-corners { border-radius:77px; }
-
 	.dtk-select-small { font-size: 50%; width:50%; }
 	.dtk-select-large { font-size: 140%; width:100%;}
 	.dtk-select-xlarge { font-size: 190%; width:100%;}
 	.dtk-select-xxlarge { font-size: 200%; width:100%;}
 	.dtk-select-xxxlarge { font-size: 250%; width:100%;}
-
 	.dtk-select-red { background-color:red; color:white; }
 	.dtk-select-blue { background-color:blue; color:white; }
 
@@ -107,7 +101,6 @@
 
 /* Themes: */
 	/* Black Background */
-	.dtk-theme-blackbg { background-color:black !important; color:white; }
 
     
 /**************************************************** 
