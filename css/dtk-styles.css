@@ -20,6 +20,8 @@
                 user-select: none; /* Non-prefixed version, currently
                                         supported by Chrome, Edge, Opera and Firefox */
     }
+	/* No tap highlight for common elements */
+	input, textarea, button, select, a { -webkit-tap-highlight-color: transparent; }
 
 /* Alignment (text-based) */
 	.centered { text-align:center; }
