@@ -21,6 +21,9 @@
 /* Position, Display, Visibility */
 .dtk-menu-sticky { position:sticky; top:0; z-index:100; opacity:100 } /* Make menu items sticky */
 .dtk-margin-0 { margin:0% !important }
+.dtk-fade { opacity:0; }
+.dtk-fade-in { opacity:100 !important; transition: opacity ease-in 0.5s; }
+.dtk-fade-out { opacity:0 !important; transition: opacity ease-out 0.2s; }
 .hidden { display:none !important; }
 .invisible { visibility: hidden !important;} 
 .pointer { cursor:pointer; }
