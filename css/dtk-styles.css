@@ -29,9 +29,9 @@
 .hidden { display:none !important; }
 .invisible { visibility: hidden !important;} 
 .pointer { cursor:pointer; }
-.centered { text-align:center; }
-.lefted   { text-align:left; }
-.righted  { text-align:right; }
+.centered { text-align:center !important; }
+.lefted   { text-align:left !important; }
+.righted  { text-align:right !important; }
 
 /* Dimensions, Display, & Clicking */
 input, textarea, button, select, a { -webkit-tap-highlight-color: transparent; } /* No higlighting when clicking the items (especially on mobile devices*/
