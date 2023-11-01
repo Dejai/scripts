@@ -216,13 +216,13 @@ const MyDom = {
 	},
 
 	// Show content based on query selector
-	showContent: function(selector){
-		this._toggleClass(selector, "remove", "hidden");
+	showContent: function(selector, parent=undefined){
+		this._toggleClass(selector, "remove", "hidden", parent);
 	},
 
 	// Hide based on query selector
-	hideContent: function(selector){
-		this._toggleClass(selector, "add", "hidden");
+	hideContent: function(selector, parent=undefined){
+		this._toggleClass(selector, "add", "hidden", parent);
 	},
 
 	// Set the content of an HTML element
@@ -272,7 +272,7 @@ const MyDom = {
 		} 
 		catch (err)
 		{
-			console.log(err);
+			MyLogger.LogError(err);
 		}
 		finally
 		{
@@ -280,18 +280,17 @@ const MyDom = {
 		}
 	},
 
-	addClass: function(selector, className){
-		MyDom._toggleClass(selector, "add", className);
+	addClass: function(selector, className, parent=undefined){
+		MyDom._toggleClass(selector, "add", className, parent);
 	},
 
-	removeClass: function(selector, className){
-		MyDom._toggleClass(selector, "remove", className);
+	removeClass: function(selector, className, parent=undefined){
+		MyDom._toggleClass(selector, "remove", className, parent);
 	},
 
-	replaceClass: (selector, oldClass, newClass) => {
-		
-		MyDom.addClass(selector, newClass);
-		MyDom.removeClass(selector, oldClass);
+	replaceClass: (selector, oldClass, newClass, parent=undefined) => {
+		MyDom.addClass(selector, newClass, parent);
+		MyDom.removeClass(selector, oldClass, parent);
 	},
 	
 	// A public warapper for the helper function within
@@ -299,10 +298,11 @@ const MyDom = {
 		MyDom._toggleClass(selector, action, className);
 	},
 	
-	_toggleClass: function(selector, action, className){
+	_toggleClass: function(selector, action, className, parent=undefined){
 		try
 		{
-			let elements = Array.from(document.querySelectorAll(selector));
+			let elements = (parent != undefined) ? parent.querySelectorAll(selector) : document.querySelectorAll(selector);
+			elements = Array.from(elements);
 			if(elements != undefined)
 			{
 				elements.forEach(function(obj){
