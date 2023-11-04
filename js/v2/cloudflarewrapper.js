@@ -25,7 +25,7 @@ const CloudflareWrapper = {
 
     // Get single video details
     GetVideo: async (videoID) =>{
-        var url = `${CloudflareWrapper.Endpoint}/stream/${videoID}`;
+        var url = `${CloudflareWrapper.Endpoint}/stream/?video=${videoID}`;
         var resp = await MyFetch.call("GET", url);
         return resp;
     }
