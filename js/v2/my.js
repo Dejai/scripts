@@ -55,10 +55,11 @@ const MyAuth = {
 	},
 
 	// Show the login frame
-	showLogins: () => {
+	showLogins: (withError=false) => {
 		var frame = document.querySelector("#dtk-LoginFrame");
 		if(frame != undefined){
-			frame.src = `${MyAuth.AuthUrl}/logins`;
+			var errorFlag = (withError) ? "?error=1" : "";
+			frame.src = `${MyAuth.AuthUrl}/logins` + errorFlag;
 			MyDom.showContent("#dtk-LoginFrame");
 		}
 		// If showing login section, then listen for login details
@@ -77,12 +78,11 @@ const MyAuth = {
 			const eventJson = JSON.parse(event.data);
 			if( eventJson?.status == 200 ){
 				// Set cookie first
-				MyCookies.setCookie(MyCookies.getCookieName("Session"), eventJson?.token ?? "");
-
-				// Then validate & return if successful
-				var toHref = encodeURIComponent(document.referrer);
-				var validateCall = `${MyAuth.AuthUrl}/validate/?to=${toHref}`;
-				MyUrls.navigateTo(validateCall);
+				MyCookies.setCookie(MyCookies.getCookieName("Session"), eventJson?.session ?? "");
+				// Return to referrer
+				MyUrls.navigateTo(document.referrer);
+			} else {
+				MyUrls.showLogins(withError=true);
 			}
 		});
 	},
