@@ -17,10 +17,13 @@ class CloudflareWrapper {
     constructor(){
         this.Endpoint = "https://files.the-dancinglion.workers.dev";
     }
-
-    async Session(loginDetails={}){
-        var url = `${this.Endpoint}/session`;
-        await MyFetch.call("POST", url, { body: JSON.stringify(loginDetails)});
+    
+    async Session(){
+		var sessionCookie = MyCookies.getCookie(MyCookies.getCookieName("Session"));
+        if(sessionCookie != undefined){
+            var url = `${this.Endpoint}/session/?key=${sessionCookie}`;
+            await MyFetch.call("GET", url);
+        }
     }
 
     async GetContent(type, searchParams={}){
