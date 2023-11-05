@@ -67,9 +67,11 @@ const MyAuth = {
 
 	// Listen for post messages from the login frame;
 	listenForLogin: () => {
-		console.log("Adding listener for post messages");
+		var authUrl = new URL(MyAuth.AuthUrl);
+		var authOrigin = authUrl.origin;
+		MyLogger.LogInfo("Adding listener for post messages via: " + authOrigin);
 		window.addEventListener("message", (event)=>{
-			if(event.origin != MyAuth.AuthUrl){
+			if(event.origin != authOrigin){
 				return;
 			}
 			const eventJson = JSON.parse(event.data);
