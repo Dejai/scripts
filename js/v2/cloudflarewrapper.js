@@ -19,16 +19,16 @@ const CloudflareWrapper = {
     // Get a list of videos based on an a given name value
     GetVideos: async (nameValue) => {
        var url = `${CloudflareWrapper.Endpoint}/stream/?search=${nameValue}`;
-       var reqHeaders = MyCookies.getCookieAsHeader("Session");
-       var resp = await MyFetch.call("GET", url, { headers: reqHeaders});
+    //    var reqHeaders = MyCookies.getCookieAsHeader("Session");
+       var resp = await MyFetch.call("GET", url);
        return resp;
     },
 
     // Get single video details
     GetVideo: async (videoID) =>{
         var url = `${CloudflareWrapper.Endpoint}/stream/?video=${videoID}`;
-        var reqHeaders = MyCookies.getCookieAsHeader("Session");
-        var resp = await MyFetch.call("GET", url, { headers: reqHeaders});
+        // var reqHeaders = MyCookies.getCookieAsHeader("Session");
+        var resp = await MyFetch.call("GET", url);
         return resp;
     }
 }
