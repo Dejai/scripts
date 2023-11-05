@@ -191,6 +191,17 @@ const MyCookies = {
 			expDate = `${utcDate};`;
 		}
 		return expDate;
+	},
+
+	// Get a cookie as a header
+	getCookieAsHeader(cookieName, existingHeaders=undefined){
+		var headers = existingHeaders ?? new Headers();
+		var dtkCookieName = MyCookies.getCookieName(cookieName);
+		var cookieValue = MyCookies.getCookie(dtkCookieName) ?? "";
+		if(cookieValue != ""){
+			headers.append(dtkCookieName, cookieValue);
+		}
+		return headers;
 	}
 }
 
