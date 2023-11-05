@@ -9,7 +9,7 @@ Dependencies:
 
 // Auth manager;
 const MyAuth = {
-	AuthUrl: "https://auth.the-dancinglion.workers.dev",
+	AuthUrl: "https://api.the-dancinglion.workers.dev/auth",
 
 	// Handle the login page loading
 	onLogin: async () => {
