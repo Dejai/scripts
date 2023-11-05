@@ -362,6 +362,7 @@ const MyFetch = {
 	// Get the full fetch object (removing response type if it has it)
 	_getFetchObject: (method, fetchObj) => {
 		fetchObj["method"] = method;
+		fetchObj["credentials"] = "include";
 		if(fetchObj.hasOwnProperty("responseType")){
 			delete fetchObj["responseType"]
 		}
