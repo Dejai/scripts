@@ -9,7 +9,7 @@ Dependencies:
 
 // Auth manager;
 const MyAuth = {
-	AuthUrl: "https://api.the-dancinglion.workers.dev/auth",
+	AuthUrl: "https://auth.the-dancinglion.workers.dev",
 
 	// Handle the login page loading
 	onLogin: async () => {
@@ -82,7 +82,7 @@ const MyAuth = {
 				// Return to referrer
 				MyUrls.navigateTo(document.referrer);
 			} else {
-				MyUrls.showLogins(withError=true);
+				MyAuth.showLogins(withError=true);
 			}
 		});
 	},
