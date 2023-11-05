@@ -15,15 +15,7 @@ Notes:
 class CloudflareWrapper {
 
     constructor(){
-        this.Endpoint = "https://files.the-dancinglion.workers.dev";
-    }
-
-    async Session(userKey=""){
-        if(userKey != ""){
-            var url = `${this.Endpoint}/session`;
-            var user = {"UserKey": userKey};
-            await MyFetch.call("POST", url, { body: JSON.stringify(user) });
-        }
+        this.Endpoint = "https://api.the-dancinglion.workers.dev/files";
     }
 
     async GetContent(type, searchParams={}){
