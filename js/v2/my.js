@@ -93,9 +93,15 @@ const MyAuth = {
 		var results = {};
 		var postCall = `${MyAuth.AuthUrl}/session/${action}`;
 		results = await MyFetch.call("POST", postCall);
+
 		// Set the status of the session state; Also set the UserKey (if provided)
-		MyCookies.setCookie(MyCookies.getCookieName("Session"), results?.active ?? false);
-		MyCookies.setCookie(MyCookies.getCookieName("UserKey"), results?.user?.Key ?? "");
+		var isActive = (results?.active ?? false);
+		var userKey = results?.user?.key ?? "";
+		var sessionCookieName = MyCookies.getCookieName("Session");
+		var userKeyCookieName = MyCookies.getCookieName("UserKey");
+		var _session = (isActive) ? MyCookies.setCookie(sessionCookieName, isActive) : MyCookies.deleteCookie(sessionCookieName);
+		var _userKey = (isActive) ? MyCookies.setCookie(userKeyCookieName, userKey) : MyCookies.deleteCookie(userKeyCookieName);
+
 		return results;
 	},
 
