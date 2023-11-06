@@ -105,7 +105,7 @@ const MyAuth = {
 		results = await MyFetch.call("POST", postCall);
 		// Set the status of the session state; Also set the UserKey (if provided)
 		MyCookies.setCookie(MyCookies.getCookieName("Session"), results?.active ?? false);
-		MyCookies.setCookie(MyCookies.getCookieName("UserKey"), results?.userDetails?.Key ?? "");
+		MyCookies.setCookie(MyCookies.getCookieName("UserKey"), results?.user?.Key ?? "");
 		return results;
 	},
 
