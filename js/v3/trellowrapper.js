@@ -176,8 +176,8 @@ class TrelloWrapper {
 	// Creates a new Trello Card
 	CreateCard(listID, cardName) {
 		this.Method = "POST";
-		this.Command = `name=${cardName}&idList=${listID}&pos=top`;
-		this.Params = "";
+		this.Command = `create_card`;
+		this.Params = `name=${cardName}&idList=${listID}&pos=top`;
 		return this.#TrelloCall();
 	}
 
