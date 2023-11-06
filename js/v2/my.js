@@ -96,7 +96,7 @@ const MyAuth = {
 
 		// Set the status of the session state; Also set the UserKey (if provided)
 		var isActive = (results?.active ?? false);
-		var userKey = results?.user?.key ?? "";
+		var userKey = results?.user?.Key ?? "";
 		var sessionCookieName = MyCookies.getCookieName("Session");
 		var userKeyCookieName = MyCookies.getCookieName("UserKey");
 		var _session = (isActive) ? MyCookies.setCookie(sessionCookieName, isActive) : MyCookies.deleteCookie(sessionCookieName);
