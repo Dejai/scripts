@@ -29,7 +29,6 @@ const MyAuth = {
 	onLogout: async () => {
 		try{
 			var isLoggedIn = await MyAuth.isLoggedIn();
-			console.log(isLoggedIn);
 			if(isLoggedIn){
 				await MyAuth.logOut();
 			}
@@ -77,8 +76,6 @@ const MyAuth = {
 			}
 			const eventJson = JSON.parse(event.data);
 			if( eventJson?.status == 200 ){
-				// Set cookie first
-				MyCookies.setCookie(MyCookies.getCookieName("Session"), eventJson?.session ?? "");
 				// Return to referrer
 				MyUrls.navigateTo(document.referrer);
 			} else {
@@ -98,21 +95,17 @@ const MyAuth = {
 	logOut: async () => {
 		var details = await MyAuth.getSessionDetails("logout");
 		var isLogOut = !(details?.acive ?? true); //opposite of active status;
-		if(isLogOut){
-			MyCookies.deleteCookie(MyCookies.getCookieName("Session"));
-		}
 		return isLogOut;
 	},
 
 	// Check cookie/session & take given action
 	getSessionDetails: async(action) => {
 		var results = {};
-		var cookie = MyCookies.getCookie(MyCookies.getCookieName("Session"));
-		if(cookie != undefined){
-			var postCall = `${MyAuth.AuthUrl}/session/${action}`;
-			var sessionObj = { "session":cookie };
-			results = await MyFetch.call("POST", postCall, { body: JSON.stringify(sessionObj) } );
-		}
+		var postCall = `${MyAuth.AuthUrl}/session/${action}`;
+		results = await MyFetch.call("POST", postCall);
+		// Set the status of the session state; Also set the UserKey (if provided)
+		MyCookies.setCookie(MyCookies.getCookieName("Session"), results?.active ?? false);
+		MyCookies.setCookie(MyCookies.getCookieName("UserKey"), results?.userDetails?.Key ?? "");
 		return results;
 	},
 
