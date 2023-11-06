@@ -28,10 +28,7 @@ const MyAuth = {
 	// Handle th logout page loading
 	onLogout: async () => {
 		try{
-			var isLoggedIn = await MyAuth.isLoggedIn();
-			if(isLoggedIn){
-				await MyAuth.logOut();
-			}
+			await MyAuth.getSessionDetails("logout");
 			// Go back to the prev page
 			MyUrls.navigateTo(document.referrer);
 		} catch(err){
@@ -89,13 +86,6 @@ const MyAuth = {
 		var details = await MyAuth.getSessionDetails("active");
 		var isLoggedIn = (details?.active ?? false)
 		return isLoggedIn
-	},
-
-	// Logout of the app
-	logOut: async () => {
-		var details = await MyAuth.getSessionDetails("logout");
-		var isLogOut = !(details?.acive ?? true); //opposite of active status;
-		return isLogOut;
 	},
 
 	// Check cookie/session & take given action
