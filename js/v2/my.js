@@ -51,11 +51,11 @@ const MyAuth = {
 	},
 
 	// Show the login frame
-	showLogins: (withError=false) => {
+	showLogins: (message="") => {
 		var frame = document.querySelector("#dtk-LoginFrame");
 		if(frame != undefined){
-			var errorFlag = (withError) ? "?error=1" : "";
-			frame.src = `${MyAuth.AuthUrl}/logins` + errorFlag;
+			var messageParam = (message != "") ? `?message=${message}`: "";
+			frame.src = `${MyAuth.AuthUrl}/logins/` + messageParam;
 			MyDom.showContent("#dtk-LoginFrame");
 		}
 		// If showing login section, then listen for login details
@@ -72,11 +72,12 @@ const MyAuth = {
 				return;
 			}
 			const eventJson = JSON.parse(event.data);
+			// If successful, return to referrer; Otherwise, show login again with message
 			if( eventJson?.status == 200 ){
-				// Return to referrer
 				MyUrls.navigateTo(document.referrer);
 			} else {
-				MyAuth.showLogins(withError=true);
+				var message = eventJson?.message ?? "Something went wrong. Try again";
+				MyAuth.showLogins(message);
 			}
 		});
 	},
