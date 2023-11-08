@@ -72,7 +72,6 @@ const MyAuth = {
 				return;
 			}
 			const eventJson = JSON.parse(event.data);
-			alert(eventJson?.status);
 			// If successful, return to referrer; Otherwise, show login again with message
 			if( eventJson?.status == 200 ){
 				MyUrls.navigateTo(document.referrer);
