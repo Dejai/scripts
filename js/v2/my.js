@@ -75,7 +75,7 @@ const MyAuth = {
 			// If successful, return to referrer; 
 			if( eventJson?.status == 200 ){
 				MyUrls.navigateTo(document.referrer);
-			} 
+			}
 		});
 	},
 
