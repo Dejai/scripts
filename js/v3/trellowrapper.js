@@ -24,31 +24,31 @@ class TrelloWrapper {
     }
 
     // Get the full API call path for a given command (with optional params)
-    #GetFullTrelloPath(command, params="") {
+    GetFullTrelloPath(command, params="") {
         params = (params != "") ? "?" + params : "";
         return `${this.Endpoint}/${this.BoardName}/${command.toLowerCase()}/${params}`;
     }
 
 	// Add the session cookie to the header (if found)
-	#AddSessionHeader()
+	AddSessionHeader()
 	{
 		var cookieName = MyCookies.getCookieName("Session");
 		var cookieValue = MyCookies.getCookie(cookieName) ?? "";
 		if(cookieValue != ""){
 			this.Headers.append(cookieName, cookieValue);
 		}
-		this.#AddToFetchObj("headers", this.Headers);
+		this.AddToFetchObj("headers", this.Headers);
 	}
 
 	// Add an attribute to the fetch object
-	#AddToFetchObj(key, value){
+	AddToFetchObj(key, value){
 		this.FetchObject[key] = value;
 	}
 
 	// Main call - Get full Trello API path and return a fetch call
-	#TrelloCall(){
-		var url = this.#GetFullTrelloPath(this.Command, this.Params);
-		this.#AddSessionHeader(); // Always add the session header if applicable
+	TrelloCall(){
+		var url = this.GetFullTrelloPath(this.Command, this.Params);
+		this.AddSessionHeader(); // Always add the session header if applicable
 		return MyFetch.call(this.Method, url, this.FetchObject);
 	}
 
@@ -59,7 +59,7 @@ class TrelloWrapper {
 		this.Method = "GET";
 		this.Command = "get_boards";
 		this.Params = "";
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
     // Get a single card (by ID)
@@ -67,7 +67,7 @@ class TrelloWrapper {
 		this.Method = "GET";
 		this.Command = "get_single_card";
 		this.Params = `cardID=${cardID}&checklists=all&attachments=true&customFieldItems=true`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Gets a single trello card's actions
@@ -75,7 +75,7 @@ class TrelloWrapper {
 		this.Method = "GET";
 		this.Command = "get_card_attachment";
 		this.Params = `cardID=${cardID}&attachmentID=${attachmentID}&fileNameID=${fileName}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Get the custom fields on a card
@@ -83,7 +83,7 @@ class TrelloWrapper {
 		this.Method = "GET";
 		this.Command = "get_card_custom_fields";
 		this.Params = `cardID=${cardID}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Get a custom field on a card by its name
@@ -103,7 +103,7 @@ class TrelloWrapper {
 		this.Method = "GET";
 		this.Command = "get_cards";
 		this.Params = `listID=${listID}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Get a list of Trello Cards
@@ -119,7 +119,7 @@ class TrelloWrapper {
 		this.Method = "GET";
 		this.Command = "get_checklist";
 		this.Params = `checklistID=${checklistID}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Get the comments; Via call = get_actions
@@ -127,7 +127,7 @@ class TrelloWrapper {
 		this.Method = "GET";
 		this.Command = "get_actions";
 		this.Params = `cardID=${cardID}&filter=commentCard`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Get Custom Fields;
@@ -135,7 +135,7 @@ class TrelloWrapper {
 		this.Method = "GET";
 		this.Command = "get_custom_fields";
 		this.Params = "";
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Get a custom field specifically by name
@@ -150,7 +150,7 @@ class TrelloWrapper {
 		this.Method = "GET";
 		this.Command = "get_labels";
 		this.Params = "";
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Get a set of Trello Lists
@@ -160,7 +160,7 @@ class TrelloWrapper {
 		var state = (listState.startsWith("close")) ? "closed" : (listState.startsWith("open")) ? "open" : undefined;
 		var filter = (state != undefined) ? `filter=${state}` : "";
 		this.Params = filter;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Get a specific list based on name
@@ -178,7 +178,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = `create_card`;
 		this.Params = `name=${cardName}&idList=${listID}&pos=top`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Creates a new Trello Card
@@ -187,8 +187,8 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "create_card_attachment";
 		this.Params = `cardID=${cardID}&mimeType=${mimeType}&name=${fileName}`;
-		this.#AddToFetchObj("body", fileObject);
-		return this.#TrelloCall();
+		this.AddToFetchObj("body", fileObject);
+		return this.TrelloCall();
 	}
 
 	// Add a comment to a card
@@ -196,7 +196,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "create_card_comment";
 		this.Params = `cardID=${cardID}&text=${comment}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Create a new checklist
@@ -204,7 +204,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "create_checklist";
 		this.Params = `name=Media&idCard=${cardID}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Create an individual checklist item
@@ -212,7 +212,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "create_checklist_item";
 		this.Params = `checklistID=${checklistID}&name=${checklistItemName}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Create a new list
@@ -220,7 +220,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "create_list";
 		this.Params = `name=${listName}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 /*** UPDATE Calls ***/
@@ -236,8 +236,8 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "update_card_custom_field";
 		this.Params = `cardID=${cardID}&customFieldID=${customFieldID}`;
-		this.#AddToFetchObj("body", encoded);
-		return this.#TrelloCall();
+		this.AddToFetchObj("body", encoded);
+		return this.TrelloCall();
 	}
 
 	// Update the description on a card
@@ -247,8 +247,8 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "update_card";
 		this.Params = `cardID=${cardID}&desc=${newCardDesc}`;
-		this.#AddToFetchObj("body", encoded);
-		return this.#TrelloCall();
+		this.AddToFetchObj("body", encoded);
+		return this.TrelloCall();
 	}
 
 	// Add a label on a card
@@ -256,7 +256,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "update_card_label";
 		this.Params = `cardID=${cardID}&value=${labelID}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Update the Card's list
@@ -264,7 +264,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "update_card";
 		this.Params = `cardID=${cardID}&idList=${newListID}&pos=top`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Update the name of a card
@@ -272,7 +272,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "update_card";
 		this.Params = `cardID=${cardID}&name=${newCardName}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Update the state of a checklist item (complete or incomplete)
@@ -281,7 +281,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "update_checklist_item";
 		this.Params = `cardID=${cardID}&checklistItemID=${checklistItemID}&state=${state}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Update the value of a checklist item;
@@ -289,7 +289,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "update_checklist_item";
 		this.Params = `cardID=${cardID}&checklistItemID=${checklistItemID}&name=${newChecklistItemName}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Update the state of a list (open or closed)
@@ -298,7 +298,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "update_list";
 		this.Params = `listID=${listID}&name=${newListName}&closed=${state}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 
@@ -309,7 +309,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "delete_card_attachment";
 		this.Params = `cardID=${cardID}&attachmentID=${attachmentID}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Remove a comment from a card
@@ -317,7 +317,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "delete_card_comment";
 		this.Params = `cardID=${cardID}&commentID=${commentID}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 	// Remove a card label
@@ -325,7 +325,7 @@ class TrelloWrapper {
 		this.Method = "POST";
 		this.Command = "delete_card_label";
 		this.Params = `cardID=${cardID}&labelID=${labelID}`;
-		return this.#TrelloCall();
+		return this.TrelloCall();
 	}
 
 }
