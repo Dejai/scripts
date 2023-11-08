@@ -72,13 +72,10 @@ const MyAuth = {
 				return;
 			}
 			const eventJson = JSON.parse(event.data);
-			// If successful, return to referrer; Otherwise, show login again with message
+			// If successful, return to referrer; 
 			if( eventJson?.status == 200 ){
 				MyUrls.navigateTo(document.referrer);
-			} else {
-				var message = eventJson?.message ?? "Something went wrong. Try again";
-				MyAuth.showLogins(message);
-			}
+			} 
 		});
 	},
 
