@@ -11,6 +11,14 @@ Dependencies:
 const MyAuth = {
 	AuthUrl: "https://auth.the-dancinglion.workers.dev",
 
+	onAuthAction: async (action="logout") => {
+		var details = await MyAuth.getSessionDetails("active");
+		var isLoggedIn = (details?.active ?? false)
+		action = (action == undefined || isLoggedIn) ? "logout" : action;
+		var actionPath = `${MyAuth.AuthUrl}/${action}`;
+		MyUrls.navigateTo(actionPath);
+	},
+
 	// Handle the login page loading
 	onLogin: async () => {
 		try {
