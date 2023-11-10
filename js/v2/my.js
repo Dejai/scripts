@@ -9,7 +9,7 @@ Dependencies:
 
 // Auth manager;
 const MyAuth = {
-	AuthUrl: "https://auth.the-dancinglion.workers.dev",
+	AuthUrl: "https://auth.dejaithekid.com",
 
 	onAuthAction: async (action="logout") => {
 		action = (action == undefined) ? "logout" : action;
@@ -807,7 +807,7 @@ const MyUrls = {
 	getCodeFromPath: async () => {
 		var fullPath = location.pathname + location.search;
 		var encodedPath = encodeURIComponent(fullPath);
-		var requestUri = `https://paths.the-dancinglion.workers.dev/translate/?path=${encodedPath}`;
+		var requestUri = `https://paths.dejaithekid.com/translate/?path=${encodedPath}`;
 
 		// Attempt without a code
 		var results1 = await  MyFetch.call("GET",requestUri);
@@ -823,7 +823,7 @@ const MyUrls = {
 
 	// Get path from a given code
 	getPathFromCode: async (code="") => {
-		var requestUri = `https://paths.the-dancinglion.workers.dev/translate/?code=${code}`;
+		var requestUri = `https://paths.dejaithekid.com/translate/?code=${code}`;
 		var results = await MyFetch.call("GET", requestUri);
 		var path = results?.path ?? "/";
 		return path;

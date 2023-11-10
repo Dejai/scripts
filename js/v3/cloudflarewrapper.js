@@ -15,7 +15,7 @@ Notes:
 class CloudflareWrapper {
 
     constructor(){
-        this.Endpoint = "https://files.the-dancinglion.workers.dev";
+        this.Endpoint = "https://files.dejaithekid.com";
     }
 
     async GetContent(type, searchParams={}){

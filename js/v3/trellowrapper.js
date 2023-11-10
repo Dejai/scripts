@@ -11,7 +11,7 @@ class TrelloWrapper {
 
     constructor(boardName){
         this.BoardName = boardName
-        this.Endpoint = "https://trello.the-dancinglion.workers.dev"
+        this.Endpoint = "https://trello.dejaithekid.com"
 
 		// Key Elements for the call
 		this.Method = "GET";
