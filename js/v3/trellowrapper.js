@@ -329,5 +329,3 @@ class TrelloWrapper {
 	}
 
 }
-
-export { TrelloWrapper };
