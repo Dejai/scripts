@@ -292,12 +292,16 @@ const MyDom = {
 	getFormDetails: (formID) => {
 		var formSelector = formID?.replace("#", "");
 		var formFields = document.querySelectorAll(`#${formSelector} [name]`);
-		var details = {};
+		var details = { "fields": {}, "errors": [] };
 		for(var field of formFields) {
 			var key = field?.name ?? "";
-			var val = field?.value ?? undefined;
-			if(key != "" && val != undefined){
-				details[key] = val;
+			var val = field?.value ?? "";
+			var req = field?.hasAttribute("required");
+			if(req && val == ""){
+				details.errors.push(`${key} is required`);
+			}
+			if (key != ""){
+				details.fields[key] = val;
 			}
 		}
 		return details;
