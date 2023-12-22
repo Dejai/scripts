@@ -288,6 +288,21 @@ const MyDom = {
 		}
 	},
 
+	// Given the ID of a form section, get all the fields that have a [name]
+	getFormDetails: (formID) => {
+		var formSelector = formID?.replace("#", "");
+		var formFields = document.querySelectorAll(`#${formSelector} [name]`);
+		var details = {};
+		for(var field of formFields) {
+			var key = field?.name ?? "";
+			var val = field?.value ?? undefined;
+			if(key != "" && val != undefined){
+				details[key] = val;
+			}
+		}
+		return details;
+	},
+
 	addClass: function(selector, className, parent=undefined){
 		MyDom._toggleClass(selector, "add", className, parent);
 	},
