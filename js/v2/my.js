@@ -107,10 +107,8 @@ const MyAuth = {
 		var userKeyCookieName = MyCookies.getCookieName("UserKey");
 		var _session = (isActive) ? MyCookies.setCookie(sessionCookieName, isActive) : MyCookies.deleteCookie(sessionCookieName);
 		var _userKey = (isActive) ? MyCookies.setCookie(userKeyCookieName, userKey) : MyCookies.deleteCookie(userKeyCookieName);
-
 		return results;
-	},
-
+	}
 
 }
 
@@ -715,6 +713,19 @@ const MyTemplates = {
 		var placeholders = MyTemplates.getTemplatePlaceholders(template);
 
 		if(object != undefined){
+			var listOfObjects = (object.length == undefined) ? [object] : object;
+			listOfObjects.forEach( (obj)=> {
+				results += MyTemplates.replacePlaceholders(template, placeholders, obj);
+			});
+		}
+		return results;
+	},
+
+	// Given a template, just fill it in with the given object
+	fillTemplateAsync: async(template, object) => {
+		var results = "";
+		var placeholders = MyTemplates.getTemplatePlaceholders(template);
+		if(object != undefined) {
 			var listOfObjects = (object.length == undefined) ? [object] : object;
 			listOfObjects.forEach( (obj)=> {
 				results += MyTemplates.replacePlaceholders(template, placeholders, obj);
