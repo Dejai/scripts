@@ -308,14 +308,17 @@ const MyDom = {
 	// Fill out a form with values from a given object
 	fillForm: (formID, formObj) => {
 		var formSelector = formID?.replace("#", "");
-		var form = document.querySelector(`#${formSelector}`);
-		if(form != undefined){
-			for(var key of Object.keys(formObj)){
-				var pascalKey = key.substring(0).toLowerCase() + key.substring(1);
-				var val = formObj[key];
-				var field = form.querySelector(`[name="${pascalKey}"]`);
-				if(field != undefined){
-					field.value = val;
+
+		for(var key of Object.keys(formObj)) {
+			var pascalKey = key.substring(0).toLowerCase() + key.substring(1);
+			var fieldValue = formObj[key];
+			var field = document.querySelector(`${formSelector} [name="${pascalKey}"]`);
+			if(field != undefined){
+				// If text field
+				if(field.tagName == "TEXTAREA") {
+					field.innerText = fieldValue;
+				} else {
+					field.value == fieldValue;
 				}
 			}
 		}
