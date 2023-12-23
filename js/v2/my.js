@@ -583,7 +583,7 @@ const MyHelper = {
 				var col = keyAttrSplit[1] ?? "";
 				var filterVal = filterValues?.shift();
 				child = parentObject[key]?.filter(x => x[col] == filterVal )?.[0] ?? undefined;
-			} else if(parentObject[key].filter != undefined) {
+			} else if(parentObject[key]?.filter != undefined) {
 				child = parentObject[key][0];
 			} else {
 				child = parentObject[key] ?? undefined;
