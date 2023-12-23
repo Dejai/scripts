@@ -305,6 +305,22 @@ const MyDom = {
 		return details;
 	},
 
+	// Fill out a form with values from a given object
+	fillForm: (formID, formObj) => {
+		var formSelector = formID?.replace("#", "");
+		var form = document.querySelector(`#${formSelector}`);
+		if(form != undefined){
+			for(var key of Object.keys(formObj)){
+				var pascalKey = key.substring(0).toLowerCase() + key.substring(1);
+				var val = formObj[key];
+				var field = form.querySelector(`[name="${pascalKey}"]`);
+				if(field != undefined){
+					field.value = val;
+				}
+			}
+		}
+	},
+
 	addClass: function(selector, className, parent=undefined){
 		MyDom._toggleClass(selector, "add", className, parent);
 	},
