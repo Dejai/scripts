@@ -646,7 +646,7 @@ const MySearcher = {
             searchContainerID = "#" + (searchContainerID?.replaceAll("#", "") ?? "");
             var searchContainer = document.querySelector(searchContainerID);
             if(searchContainer != undefined){
-                searchContainer.innerHTML += `<div class="searchBarSection">
+                searchContainer.innerHTML = `<div class="searchBarSection">
                                                 <input class="searchBarInput" type="text" data-search-content-id="${contentContainerID}" placeholder="Search ${contentName} ... ">
                                                 <i id="" class="fa-solid fa-xmark hidden searchClearIcon searchIcons pointer" aria-hidden="true" onclick="onClearSearch()"></i>
                                             </div>`;
@@ -666,7 +666,7 @@ const MySearcher = {
     onSearchInput(){
         var contentID = this.getAttribute("data-search-content-id") ?? "";
 		contentID = "#" + contentID?.replaceAll("#", "");
-		
+
 		// Get the key pieces of the search puzzle.
         var content = document.querySelectorAll(contentID + " .searchable");
         var inputVal = this.value ?? "";
