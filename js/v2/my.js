@@ -309,9 +309,9 @@ const MyDom = {
 	fillForm: (formID, formObj) => {
 		var formSelector = formID?.replace("#", "");
 		for(var key of Object.keys(formObj)) {
-			var pascalKey = key.substring(0,1).toLowerCase() + key.substring(1);
+			var camelKey = key.substring(0,1).toLowerCase() + key.substring(1);
 			var fieldValue = formObj[key];
-			var field = document.querySelector(`#${formSelector} [name="${pascalKey}"]`);
+			var field = document.querySelector(`#${formSelector} [name="${camelKey}"]`);
 			if(field != undefined){
 				if(field.tagName == "TEXTAREA") {
 					field.innerText = fieldValue;
