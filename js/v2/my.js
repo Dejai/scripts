@@ -637,6 +637,57 @@ class MyMessage {
     }
 }
 
+// A way to add a quick/simple search bar in a designated container on a page
+const MySearcher = { 
+
+	// / Add a search bar to a designated
+	addSearchBar: (contentName, contentContainerID, searchContainerID) => {
+        try {
+            searchContainerID = "#" + (searchContainerID?.replaceAll("#", "") ?? "");
+            var searchContainer = document.querySelector(searchContainerID);
+            if(searchContainer != undefined){
+                searchContainer.innerHTML += `<div class="searchBarSection">
+                                                <input class="searchBarInput" type="text" data-search-content-id="${contentContainerID}" placeholder="Search ${contentName} ... ">
+                                                <i id="" class="fa-solid fa-xmark hidden searchClearIcon searchIcons pointer" aria-hidden="true" onclick="onClearSearch()"></i>
+                                            </div>`;
+            
+                // Add a listener to the search bar
+                var input = searchContainer.querySelector(".searchBarInput");
+                if(input != undefined){
+                    input.addEventListener("keyup", MySearcher.onSearchInput);
+                }
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+	// In this context, the "this" becomes the input element
+    onSearchInput(){
+        var contentID = this.getAttribute("data-search-content-id") ?? "";
+		contentID = "#" + contentID?.replaceAll("#", "");
+		
+		// Get the key pieces of the search puzzle.
+        var content = document.querySelectorAll(contentID + " .searchable");
+        var inputVal = this.value ?? "";
+		
+		//  Loop through all ".searchable" content & show/hide according to input; 
+        for(var row of content){
+            if(inputVal == ""){
+                row.classList.remove("searchableHidden");
+            } else { 
+                var rowContent = row.innerText?.toLowerCase() ?? "";
+                var search = inputVal.toLowerCase();
+                if(rowContent.includes(search)){
+                    row.classList.remove("searchableHidden");
+                } else { 
+                    row.classList.add("searchableHidden");
+                }
+            }
+        }
+    }
+}
+
 // If voice things are needed
 const MySpeaker = {
 
