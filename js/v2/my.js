@@ -921,6 +921,13 @@ const MyUrls = {
 		MyUrls.addWindowHistory({"path":newPath}, true);
 	},
 
+	// Replace the URL search with a whole new one
+	replaceSearch(keyValuePairs, replaceWindowHistory=false) {
+		var newSearch = MyUrls.getModifiedSearchString(keyValuePairs, false);
+		let newPath = location.pathname + newSearch;
+		MyUrls.addWindowHistory({"path":newPath}, true);
+	},
+
 	// Add history to window history (with option to replace or not)
 	addWindowHistory(jsonObj, replace=false)
 	{
@@ -957,14 +964,16 @@ const MyUrls = {
 	},
 
 	// Modify the existing search string
-	getModifiedSearchString(keyValuePairs={}) {
+	getModifiedSearchString(keyValuePairs={}, keepExisting=true) {
 
 		// If no key pairs, return empty string;
 		if(Object.keys(keyValuePairs).length == 0){
 			return "";
 		}
 
-		var searchMap = MyUrls.getSearchValues();
+		// Get existing search map if flagged to keep; Else, start scratch;
+		var searchMap = (keepExisting) ? MyUrls.getSearchValues() : {};
+
 		// Adjust the key value pairs that are already in the search (if necessary)
 		Object.keys(keyValuePairs).forEach( (key) => {
 			let val = keyValuePairs[key];
