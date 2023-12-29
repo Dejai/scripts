@@ -313,11 +313,10 @@ const MyDom = {
 			var fieldValue = formObj[key];
 			var field = document.querySelector(`#${formSelector} [name="${camelKey}"]`);
 			if(field != undefined){
+				field.value = fieldValue;
 				if(field.tagName == "TEXTAREA") {
 					field.innerText = fieldValue;
-				} else {
-					field.value = fieldValue;
-				}
+				} 
 			}
 		}
 	},
