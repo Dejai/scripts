@@ -429,7 +429,7 @@ const MyHelper = {
 
 	_getRandomCharacter: () => {
 		var coin = Math.floor(Math.random()*2);
-		return (coin == 1) ? MyHelper._getRandomDigit() : MyHelper._getRandomCharacter();
+		return (coin == 1) ? MyHelper._getRandomDigit() : MyHelper._getRandomLetter();
 	},
 
 	_isReservedCode: function(code){
