@@ -416,9 +416,16 @@ const MyFetch = {
 // Misc. helper things
 const MyHelper = {
 	_getRandomCharacter: function(){
-		characters = "abcdefghijklmnopqrstuvwxyz";
+		var characters = "abcdefghijklmnopqrstuvwxyz";
+		var digits = "0123456789";
 		randChar = Math.floor(Math.random()*characters.length);
 		return characters[randChar].toUpperCase();
+	},
+	
+	_getRandomDigit: function(){
+		var digits = "0123456789";
+		randChar = Math.floor(Math.random()*digits.length);
+		return digits[randChar];
 	},
 
 	_isReservedCode: function(code){
@@ -453,12 +460,12 @@ const MyHelper = {
 		return {"success": isValid, "value":typedValue }
 	},
 
-	getCode: function(numChars=4){
+	getCode: function(numChars=4, use="letters"){
 		let chars = "";
 
 		for(var idx = 0; idx < numChars; idx++)
 		{
-			chars += MyHelper._getRandomCharacter();
+			chars += (use="digits") ? MyHelper._getRandomDigit() : MyHelper._getRandomCharacter();
 		}
 
 		var code = ( MyHelper._isReservedCode(chars) ) ? MyHelper.getCode() : chars;
