@@ -313,24 +313,13 @@ const MyDom = {
 		for(var field of formFields){
 			var fieldKey = field.getAttribute("name");
 			var pascalKey = fieldKey.substring(0,1).toUpperCase() + fieldKey.substring(1);
-			if(objectKeys.includes(pascalKey)){
-				field.value = formObj[pascalKey];
-				if(field.tagName == "TEXTAREA"){
-					field.innerText = formObj[pascalKey];
-				}
+			// Setting the value
+			var valueToSet = (objectKeys.includes(pascalKey)) ? formObj[pascalKey] : "";
+			field.value = valueToSet;
+			if(field.tagName == "TEXTAREA"){
+				field.innerText = valueToSet;
 			}
 		}
-		// for(var key of Object.keys(formObj)) {
-		// 	var camelKey = key.substring(0,1).toLowerCase() + key.substring(1);
-		// 	var fieldValue = formObj[key];
-		// 	var field = document.querySelector(`#${formSelector} [name="${camelKey}"]`);
-		// 	if(field != undefined){
-		// 		field.value = fieldValue;
-		// 		if(field.tagName == "TEXTAREA") {
-		// 			field.innerText = fieldValue;
-		// 		} 
-		// 	}
-		// }
 	},
 
 	addClass: function(selector, className, parent=undefined){
