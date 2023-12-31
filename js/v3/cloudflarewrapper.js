@@ -21,10 +21,7 @@ class CloudflareWrapper {
     async _Fetch(method, subdomain, path, fetchObj){
         path = (path.startsWith("/")) ? path.replace("/", "") : path;
         var fullUrl = `https://${subdomain}.dejaithekid.com/${path}`;
-        if(method == "POST") {
-            return MyFetch.call(method, fullUrl, fetchObj);
-        }
-        return MyFetch.call(method, fullUrl);
+        return MyFetch.call(method, fullUrl, fetchObj);
     }
 
     // Manage R2  based on path
