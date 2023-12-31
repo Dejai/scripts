@@ -21,7 +21,7 @@ class CloudflareWrapper {
     async _Fetch(method, subdomain, path, fetchObj){
         path = (path.startsWith("/")) ? path.replace("/", "") : path;
         var fullUrl = `https://${subdomain}.dejaithekid.com/${path}`;
-        if(method == "POST"){
+        if(method == "POST") {
             return MyFetch.call(method, fullUrl, fetchObj);
         }
         return MyFetch.call(method, fullUrl);
