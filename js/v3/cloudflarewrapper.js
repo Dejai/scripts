@@ -18,6 +18,23 @@ class CloudflareWrapper {
         this.Endpoint = "https://files.dejaithekid.com";
     }
 
+    async _Fetch(method, subdomain, path, fetchObj){
+        path = (path.startsWith("/")) ? path.replace("/", "") : path;
+        var fullUrl = `https://${subdomain}.dejaithekid.com/${path}`;
+        if(method == "POST"){
+            return MyFetch.call(method, fullUrl, fetchObj);
+        }
+        return MyFetch.call(method, fullUrl);
+    }
+
+    async Files(method, path, fetchObj={}){
+        return this._Fetch(method, "files", path, fetchObj);
+    }
+
+    async KV(method, path, fetchObj){
+        return this._Fetch(method, "kv", path, fetchObj);
+    }
+
     async GetContent(type, searchParams={}){
         var searchString = MyUrls.getNewSearchString(searchParams);
         var url = `${this.Endpoint}/${type}/${searchString}`;
