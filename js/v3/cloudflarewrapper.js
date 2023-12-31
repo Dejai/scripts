@@ -31,7 +31,7 @@ class CloudflareWrapper {
         return this._Fetch(method, "files", path, fetchObj);
     }
 
-    async KV(method, path, fetchObj){
+    async KeyValues(method, path, fetchObj){
         return this._Fetch(method, "kv", path, fetchObj);
     }
 
