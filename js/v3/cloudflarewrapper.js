@@ -15,7 +15,7 @@ Notes:
 class CloudflareWrapper {
 
     constructor(){
-        this.Endpoint = "https://files.dejaithekid.com";
+        this.Scope = location.pathname; 
     }
 
     async _Fetch(method, subdomain, path, fetchObj){
@@ -27,29 +27,17 @@ class CloudflareWrapper {
         return MyFetch.call(method, fullUrl);
     }
 
+    // Manage R2  based on path
     async Files(method, path, fetchObj={}){
         return this._Fetch(method, "files", path, fetchObj);
     }
 
+    // Manage KV based on path
     async KeyValues(method, path, fetchObj){
         return this._Fetch(method, "kv", path, fetchObj);
     }
-
-    async GetContent(type, searchParams={}){
-        var searchString = MyUrls.getNewSearchString(searchParams);
-        var url = `${this.Endpoint}/${type}/${searchString}`;
-        var resp = await MyFetch.call("GET", url);
-        return resp;
-    }
-
-    async GetVideos(nameValue){
-        return this.GetContent("stream", {search: nameValue});
-    }
-
-    async GetVideo(videoID){
-        return this.GetContent("stream", {video: videoID})
-    }
 }
+
 
 // Class for managing a stream video player object
 class StreamManager 

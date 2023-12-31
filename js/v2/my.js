@@ -912,42 +912,7 @@ const MyUrls = {
 		window.open(url, target=targetTab);
 	},
 
-	// Get the code for the current path
-	getCodeFromPath: async () => {
-		var fullPath = location.pathname + location.search;
-		var encodedPath = encodeURIComponent(fullPath);
-		var requestUri = `https://paths.dejaithekid.com/translate/?path=${encodedPath}`;
-
-		// Attempt without a code
-		var results1 = await  MyFetch.call("GET",requestUri);
-		var code = results1?.code ?? "";
-		// Attempt with a new code
-		if(code == ""){
-			var newCode = MyHelper.getCode(5);
-			var results2 = await MyFetch.call("GET", requestUri+`&code=${newCode}`);
-			code = results2?.code ?? "";
-		}
-		return location.origin+"?code="+code;
-	},
-
-	// Get path from a given code
-	getPathFromCode: async (code="") => {
-		var requestUri = `https://paths.dejaithekid.com/translate/?code=${code}`;
-		var results = await MyFetch.call("GET", requestUri);
-		var path = results?.path ?? "/";
-		return path;
-	},
-
-	// Auto redirect from code
-	redirectFromCode: async () => {
-		var code = MyUrls.getSearchParam("code") ?? "";
-		var newPath = "/";
-		if(code != "") {
-			var newPath = await MyUrls.getPathFromCode(code);
-			MyUrls.navigateTo(newPath);
-		}
-	},
-
+	// Get a search param in the URL search
 	getSearchParam: function(key){
 		let map = MyUrls.getSearchValues();
 		let value = undefined;
@@ -958,6 +923,7 @@ const MyUrls = {
 		return value;
 	},
 
+	// Get a key/value setup of all the pairs in the search string
 	getSearchValues: function(searchString = undefined){
 		var queryMap = {};
 		// Get the query string
