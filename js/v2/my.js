@@ -658,15 +658,9 @@ const MySearcher = {
             var searchContainer = document.querySelector(searchContainerID);
             if(searchContainer != undefined){
                 searchContainer.innerHTML = `<div class="searchBarSection">
-                                                <input class="searchBarInput" type="text" data-search-content-id="${contentContainerID}" placeholder="Search ${contentName} ... ">
-                                                <i id="" class="fa-solid fa-xmark hidden searchClearIcon searchIcons pointer" aria-hidden="true" onclick="onClearSearch()"></i>
-                                            </div>`;
-            
-                // Add a listener to the search bar
-                var input = searchContainer.querySelector(".searchBarInput");
-                if(input != undefined){
-                    input.addEventListener("keyup", MySearcher.onSearchInput);
-                }
+                                                <input class="searchBarInput" type="text" data-search-content-id="${contentContainerID}" placeholder="Search ${contentName} ... " onkeyup="MySearcher.onSearchInput(this)">
+                                                <i id="" class="fa-solid fa-xmark hidden searchClearIcon searchIcons pointer" aria-hidden="true" onclick="MySearcher.onClearInput(this)"></i>
+                                            </div>`;            
             }
         } catch (err) {
             console.error(err);
@@ -674,8 +668,7 @@ const MySearcher = {
     },
 
 	// The listener for any change on the input search box
-    onSearchInput(event){
-		var input = event?.target;
+    onSearchInput(input){
 		var parent = input?.parentElement;
         var contentID = input?.getAttribute("data-search-content-id") ?? "";
 		contentID = "#" + contentID?.replaceAll("#", "");
@@ -704,7 +697,7 @@ const MySearcher = {
 
 	// Clear a search bar
 	onClearInput(clearIcon) {
-		var parent = clearIcon.parentElement;
+		var parent = clearIcon?.parentElement;
 		if(parent != undefined){
 			MyDom.setContent("input", {"value": ""}, parent);
 			MyDom.hideContent(".searchClearIcon", parent);
