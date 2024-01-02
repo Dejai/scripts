@@ -658,9 +658,13 @@ const MySearcher = {
             var searchContainer = document.querySelector(searchContainerID);
             if(searchContainer != undefined){
                 searchContainer.innerHTML = `<div class="searchBarSection">
-                                                <input class="searchBarInput" type="text" data-search-content-id="${contentContainerID}" placeholder="Search ${contentName} ... " onkeyup="MySearcher.onSearchInput(this)">
-                                                <i id="" class="fa-solid fa-xmark hidden searchClearIcon searchIcons pointer" aria-hidden="true" onclick="MySearcher.onClearInput(this)"></i>
+                                                <input class="searchBarInput" type="text" data-search-content-id="${contentContainerID}" placeholder="Search ${contentName} ... "">
+                                                <i id="" class="fa-solid fa-xmark hidden searchClearIcon searchIcons pointer" aria-hidden="true"></i>
                                             </div>`;            
+
+				// Add listeners to the input & clear
+				searchContainer.querySelector(".searchBarInput")?.addEventListener("keyup", MySearcher.onSearchInput);
+				searchContainer.querySelector(".searchClearIcon")?.addEventListener("click", MySearcher.onClearInput);
             }
         } catch (err) {
             console.error(err);
@@ -668,7 +672,8 @@ const MySearcher = {
     },
 
 	// The listener for any change on the input search box
-    onSearchInput(input){
+    onSearchInput(event){
+		var input = event?.target;
 		var parent = input?.parentElement;
         var contentID = input?.getAttribute("data-search-content-id") ?? "";
 		contentID = "#" + contentID?.replaceAll("#", "");
@@ -696,7 +701,8 @@ const MySearcher = {
     },
 
 	// Clear a search bar
-	onClearInput(clearIcon) {
+	onClearInput(event) {
+		var clearIcon = event?.target;
 		var parent = clearIcon?.parentElement;
 		if(parent != undefined){
 			MyDom.setContent("input", {"value": ""}, parent);
