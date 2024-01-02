@@ -46,6 +46,11 @@ input, textarea, button, select, a { -webkit-tap-highlight-color: transparent; }
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
+
+/* Classes to complement MySearcher */
+.searchBarSection { display: flex; align-items: center;}
+.searchBarInput { text-align:left; border:none; padding:2%; background-color: transparent; min-width:60%; }
+.searchClearIcon { text-align:right; min-width:35%; }
 .searchableHidden { display:none; }
 
 
