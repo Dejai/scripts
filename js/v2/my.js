@@ -705,7 +705,7 @@ const MySearcher = {
 		var clearIcon = event?.target;
 		var parent = clearIcon?.parentElement;
 		if(parent != undefined){
-			MyDom.setContent("input", {"value": ""}, parent);
+			MyDom.setContent("input", {"value": ""}, false, parent);
 			MyDom.hideContent(".searchClearIcon", parent);
 		}
 	}
