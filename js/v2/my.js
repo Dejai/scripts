@@ -232,10 +232,10 @@ const MyDom = {
 	},
 
 	// Set the content of an HTML element
-	setContent: function(selector,contentObj,append=false){
+	setContent: function(selector,contentObj,append=false, parent=undefined){
 		try
 		{
-			let elements = document.querySelectorAll(selector);
+			let elements = (parent != undefined) ? parent.querySelectorAll(selector) : document.querySelectorAll(selector);
 
 			let contentKeys = Object.keys(contentObj);
 
