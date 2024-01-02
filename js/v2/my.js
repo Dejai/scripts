@@ -673,9 +673,11 @@ const MySearcher = {
         }
     },
 
-	// In this context, the "this" becomes the input element
-    onSearchInput(){
-        var contentID = this.getAttribute("data-search-content-id") ?? "";
+	// The listener for any change on the input search box
+    onSearchInput(event){
+		var input = event?.target;
+		var parent = input?.parentElement;
+        var contentID = input?.getAttribute("data-search-content-id") ?? "";
 		contentID = "#" + contentID?.replaceAll("#", "");
 
 		// Get the key pieces of the search puzzle.
@@ -686,7 +688,9 @@ const MySearcher = {
         for(var row of content){
             if(inputVal == ""){
                 row.classList.remove("searchableHidden");
-            } else { 
+				MyDom.hideContent(".searchClearIcon", parent);
+            } else {
+				MyDom.showContent(".searchClearIcon", parent);
                 var rowContent = row.innerText?.toLowerCase() ?? "";
                 var search = inputVal.toLowerCase();
                 if(rowContent.includes(search)){
@@ -696,7 +700,16 @@ const MySearcher = {
                 }
             }
         }
-    }
+    },
+
+	// Clear a search bar
+	onClearInput(clearIcon) {
+		var parent = clearIcon.parentElement;
+		if(parent != undefined){
+			MyDom.setContent("input", {"value": ""}, parent);
+			MyDom.hideContent(".searchClearIcon", parent);
+		}
+	}
 }
 
 // If voice things are needed
