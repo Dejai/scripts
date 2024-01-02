@@ -263,12 +263,12 @@ const MyDom = {
 	},
 
 	// Get the content of an HTML element
-	getContent: function(selector) {
+	getContent: function(selector, parent=undefined) {
 
 		let content = {"innerText":undefined, "innerHTML":undefined, "value":undefined }
 		try 
 		{
-			let ele = document.querySelector(selector);
+			let ele = (parent != undefined) ? parent.querySelector(selector) : document.querySelector(selector);
 			if(ele != undefined)
 			{
 				content["innerText"] = ele.innerText;
