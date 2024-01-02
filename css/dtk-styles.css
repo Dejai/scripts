@@ -46,6 +46,7 @@ input, textarea, button, select, a { -webkit-tap-highlight-color: transparent; }
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
+.searchableHidden { display:none; }
 
 
 /* Alignment (margin-based) */
