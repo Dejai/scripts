@@ -664,6 +664,7 @@ const MySearcher = {
 
 				// Add listeners to the input & clear
 				searchContainer.querySelector(".searchBarInput")?.addEventListener("keyup", MySearcher.onSearchInput);
+				searchContainer.querySelector(".searchBarInput")?.addEventListener("change", MySearcher.onSearchInput);
 				searchContainer.querySelector(".searchClearIcon")?.addEventListener("click", MySearcher.onClearInput);
             }
         } catch (err) {
