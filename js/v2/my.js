@@ -931,9 +931,9 @@ const MyUrls = {
 		let value = undefined;
 		if(map.hasOwnProperty(key))
 		{
-			value = map[key]
+			value = decodeURIComponent( map[key] )
 		}
-		return decodeURIComponent(value);
+		return value;
 	},
 
 	// Get a key/value setup of all the pairs in the search string
