@@ -933,7 +933,7 @@ const MyUrls = {
 		{
 			value = map[key]
 		}
-		return value;
+		return decodeURIComponent(value);
 	},
 
 	// Get a key/value setup of all the pairs in the search string
