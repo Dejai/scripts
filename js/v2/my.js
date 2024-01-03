@@ -814,7 +814,7 @@ const MyTemplates = {
 	},
 
 	// Given a template, just fill it in with the given object
-	fillTemplateAsync: async(template, object) => {
+	fillTemplate: (template, object) => {
 		var results = "";
 		var placeholders = MyTemplates.getTemplatePlaceholders(template);
 		if(object != undefined) {
