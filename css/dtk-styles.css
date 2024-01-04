@@ -22,6 +22,7 @@
 
 /* Position, Display, Visibility */
 .dtk-menu-sticky { position:sticky; top:0; z-index:100; opacity:100 } /* Make menu items sticky */
+.dtk-after-sticky { overflow-y:scroll; } /* Make sure section after sticky is overflow scrollable */
 .dtk-margin-0 { margin:0% !important }
 .dtk-fade { opacity:0; }
 .dtk-fade-in { opacity:100 !important; transition: opacity ease-in 0.5s; }
