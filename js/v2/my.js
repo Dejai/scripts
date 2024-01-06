@@ -406,6 +406,9 @@ const MyFetch = {
 			case "text":
 				data = await response.text();
 				break;
+			case "blob":
+				data = await response.blob();
+				break;
 			default:
 				data = await response.json();
 		}
