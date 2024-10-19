@@ -1,0 +1,4 @@
+#author: The Dancing Lion
+#! /bin/bash
+
+sudo lsof -i:${1}

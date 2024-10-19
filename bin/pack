@@ -1,0 +1,83 @@
+#! /usr/bin/env python3
+
+import os
+import sys
+import json
+import subprocess
+
+# Get file content
+def getFileContent(filePath):
+    with open(filePath, "r+") as inputFile:
+        content = inputFile.read() # read full content
+        return content
+
+# Save file content
+def writeFileContent(filePath, content, isJson=False):
+    with open(filePath, "w+") as outputFile:
+        if isJson:
+            json.dump(content, outputFile)
+        else:
+            outputFile.write(content)
+        return True
+
+# Update version in a given file
+def updateVersion(currentVersion):
+    try:
+        parts = [ int(x) for x in currentVersion.split(".") ]
+        major = parts[0]
+        minor = parts[1]
+        patch = parts[2]
+
+        if(updateMajor):
+            major = major + 1
+            minor = 0
+            patch = 0
+        elif(updateMinor):
+            minor = minor + 1
+            patch = 0
+        else:
+            patch = patch + 1
+        return "{0}.{1}.{2}".format(major, minor, patch)
+    except:
+        return currentVersion
+
+
+# Try prettier
+def makePrettier(fileName="."):
+    try:
+        print("Making Prettier")
+        prettierCmd = "npx prettier --write {0}".format(fileName)
+        startOutput = subprocess.run(prettierCmd, shell=True)
+    except Exception as e:
+        print(e)
+
+# Get general variables
+args = sys.argv
+cwd = os.getcwd()
+files = os.listdir(cwd)
+
+# What part to update
+updateMajor = args[1] == "major" if len(args) >= 2 else False
+updateMinor = args[1] == "minor" if len(args) >= 2 else False
+updatePatch = not updateMajor and not updateMinor 
+
+# Check for Vue
+if "vite.config.ts" in files and "package.json" in files:
+    print("Vue Package")
+    try:
+        fileName = "package.json"
+        filePath = cwd + "/" + fileName 
+        content = getFileContent(filePath)
+        data = json.loads(content)
+        version = data["version"]
+        newVersion = updateVersion(version)
+        data["version"] = newVersion
+        print("Old = " + version)
+        print("New = " + newVersion)
+        print("")
+        writeFileContent(filePath, data, True)
+        makePrettier(fileName)
+    except Exception as e:
+        print(e)
+else:
+    print("Could not find a package or version file to update")
